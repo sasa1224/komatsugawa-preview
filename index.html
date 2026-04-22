@@ -17,7 +17,7 @@
         .text-base-custom { font-size: 16px; line-height: 1.8; }
         .text-nav { font-size: 15px; font-weight: 700; }
         .text-utility { font-size: 12px; }
-        .text-main-copy { font-size: 36px; font-weight: 700; line-height: 1.4; letter-spacing: 0.05em; }
+        .text-main-copy { font-size: clamp(20px, 5vw, 36px); font-weight: 700; line-height: 1.4; letter-spacing: 0.05em; white-space: nowrap; }
         .text-logo { font-size: 34px; font-weight: 700; }
 
         .section-title-en { font-family: 'Oswald', sans-serif; font-size: 42px; color: #0068b7; letter-spacing: 0.05em; line-height: 1; }
@@ -313,14 +313,14 @@
 
             <div class="flex items-center flex-grow justify-end pl-4 xl:pl-8">
                 <div class="flex flex-col items-end flex-grow mr-6">
-                    <div class="flex items-center space-x-4 xl:space-x-5 text-[12px] xl:text-[13px] text-gray-800 font-bold mb-3">
-                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">📍</span>店舗・ATM</a>
-                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">💴</span>金利情報</a>
-                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">🪙</span>手数料・利用料</a>
-                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">❓</span>よくあるご質問</a>
-                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">✉</span>お問い合わせ</a>
-                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">🔍</span>サイト内検索</a>
-                        <div class="flex items-center space-x-2 pl-4 border-l border-gray-200 ml-2">
+                    <div class="flex flex-nowrap items-center space-x-3 xl:space-x-4 text-[12px] xl:text-[13px] text-gray-800 font-bold mb-3 whitespace-nowrap">
+                        <a href="#" class="flex items-center hover:text-blue-700 whitespace-nowrap"><span class="mr-1">📍</span>店舗・ATM</a>
+                        <a href="#" class="flex items-center hover:text-blue-700 whitespace-nowrap"><span class="mr-1">💴</span>金利情報</a>
+                        <a href="#" class="flex items-center hover:text-blue-700 whitespace-nowrap"><span class="mr-1">🪙</span>手数料・利用料</a>
+                        <a href="#" class="flex items-center hover:text-blue-700 whitespace-nowrap"><span class="mr-1">❓</span>よくあるご質問</a>
+                        <a href="#" class="flex items-center hover:text-blue-700 whitespace-nowrap"><span class="mr-1">✉</span>お問い合わせ</a>
+                        <a href="#" class="flex items-center hover:text-blue-700 whitespace-nowrap"><span class="mr-1">🔍</span>サイト内検索</a>
+                        <div class="flex items-center space-x-2 pl-3 border-l border-gray-200 ml-1 whitespace-nowrap">
                             <span class="text-[12px] text-gray-600 font-bold">文字サイズ</span>
                             <div class="flex space-x-1">
                                 <button class="flex items-center justify-center px-3 py-1 bg-blue-900 text-white rounded-full text-[11px] font-bold">あ 標準</button>
