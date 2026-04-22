@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小松川信用金庫 | ワイヤーフレーム基盤</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Oswald:wght@700&display=swap');
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: #333;
+        }
+
+        /* フォントサイズ・基本設定 */
+        .text-base-custom { font-size: 16px; line-height: 1.8; }
+        .text-nav { font-size: 15px; font-weight: 700; }
+        .text-utility { font-size: 12px; }
+        .text-main-copy { font-size: 36px; font-weight: 700; line-height: 1.4; letter-spacing: 0.05em; }
+        .text-logo { font-size: 34px; font-weight: 700; }
+
+        .section-title-en { font-family: 'Oswald', sans-serif; font-size: 42px; color: #0068b7; letter-spacing: 0.05em; line-height: 1; }
+
+        /* アイコンプレースホルダー */
+        .icon-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid currentColor;
+            border-radius: 50%;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* メインビジュアル設定 */
+        .hero-bg {
+            background-color: #d1d5db;
+            background-image: url('パノラマ.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 500px;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .hero-overlay {
+            background: rgba(255, 255, 255, 0.3);
+            position: absolute;
+            inset: 0;
+        }
+
+        .btn-personal { background-color: #0068b7; }
+        .btn-corporate { background-color: #19a544; }
+        .btn-simulation { background-color: #005a9c; }
+
+        .sticky-sidebar {
+            position: fixed;
+            right: 0;
+            top: 250px;
+            z-index: 60;
+        }
+
+        /* ★インナーコンテナの統一設定: バナー集の幅に合わせて両サイドの余白を大きく設定 */
+        .inner-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        @media (min-width: 1024px) {
+            .inner-container {
+                padding: 0 110px; /* ここでサイト全体の横幅をバナー集サイズに統一 */
+            }
+        }
+
+        .service-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        /* 地域貢献セクション用背景 (薄緑から水色へ) */
+        .region-bg {
+            background: linear-gradient(135deg, #eaf5e9 0%, #e0f2f7 100%);
+        }
+
+        .region-nav-btn {
+            background: white;
+            border-radius: 4px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .region-nav-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 8px;
+            background-color: #113177;
+        }
+        .region-nav-btn:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+        /* 三角矢印 */
+        .triangle-right {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 8px solid #113177;
+        }
+
+        /* NEWSタグの色 */
+        .tag-personal { background-color: #0068b7; }
+        .tag-corporate { background-color: #19a544; }
+        .tag-campaign { background-color: #a3cf62; }
+        .tag-event { background-color: #00b7ee; }
+        .tag-notice { background-color: #1a2e5a; }
+
+        /* アプリセクション装飾 */
+        .app-section-bg { background-color: #a3cf62; }
+        .app-speech-bubble {
+            background: white;
+            border-radius: 30px;
+            padding: 10px 25px;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .app-speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: white transparent transparent;
+        }
+
+        /* フッター上段 背景設定 */
+        .footer-top-bg {
+            background-color: #2c7c7c;
+            background-image: linear-gradient(135deg, rgba(30, 150, 120, 0.9) 0%, rgba(30, 110, 160, 0.95) 100%), url('パノラマ.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* パスワードゲート */
+        #pw-gate {
+            position: fixed;
+            inset: 0;
+            background: #0b2a6b;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #pw-gate .box {
+            background: white;
+            border-radius: 12px;
+            padding: 48px 40px;
+            text-align: center;
+            width: 340px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        #pw-gate input {
+            width: 100%;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 18px;
+            letter-spacing: 0.2em;
+            text-align: center;
+            margin: 16px 0;
+            outline: none;
+        }
+        #pw-gate input:focus { border-color: #0068b7; }
+        #pw-gate button {
+            width: 100%;
+            background: #0068b7;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #pw-gate button:hover { background: #005a9c; }
+        #pw-error { color: #e11d48; font-size: 13px; margin-top: 8px; display: none; }
+        #site-content { display: none; }
+    </style>
+</head>
+<body class="bg-white overflow-x-hidden">
+
+    <!-- パスワードゲート -->
+    <div id="pw-gate">
+        <div class="box">
+            <div style="width:48px;height:48px;margin:0 auto 16px;transform:rotate(45deg);overflow:hidden;display:flex;flex-wrap:wrap;">
+                <div style="width:50%;height:50%;background:#00a0e9;"></div>
+                <div style="width:50%;height:50%;background:#00a0e9;"></div>
+                <div style="width:50%;height:50%;background:#0068b7;"></div>
+                <div style="width:50%;height:50%;background:#8fc31f;"></div>
+            </div>
+            <p style="font-size:18px;font-weight:bold;color:#0b2a6b;margin-bottom:4px;">小松川信用金庫</p>
+            <p style="font-size:12px;color:#6b7280;margin-bottom:8px;">制作確認用ページ</p>
+            <input type="password" id="pw-input" placeholder="パスワードを入力" />
+            <button onclick="checkPassword()">確認する</button>
+            <p id="pw-error">パスワードが違います</p>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            var input = document.getElementById('pw-input').value;
+            if (input === '32863380') {
+                document.getElementById('pw-gate').style.display = 'none';
+                document.getElementById('site-content').style.display = 'block';
+            } else {
+                document.getElementById('pw-error').style.display = 'block';
+                document.getElementById('pw-input').value = '';
+            }
+        }
+        document.getElementById('pw-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+    </script>
+
+    <!-- サイト本体 -->
+    <div id="site-content">
+
+    <!-- ヘッダー：固定 (ヘッダーは全幅に近い構成を維持) -->
+    <header class="w-full bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm py-4">
+        <div class="max-w-[1300px] mx-auto px-4 xl:px-8 flex items-center justify-between">
+            <div class="flex items-center space-x-3 flex-shrink-0">
+                <div class="w-10 h-10 flex relative overflow-hidden transform rotate-45 mr-1">
+                    <div class="absolute top-0 left-0 w-full h-1/2 bg-[#00a0e9]"></div>
+                    <div class="absolute bottom-0 left-0 w-1/2 h-1/2 bg-[#0068b7]"></div>
+                    <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[#8fc31f]"></div>
+                </div>
+                <h1 class="text-3xl font-bold tracking-tighter leading-none text-gray-900">小松川信用金庫</h1>
+            </div>
+
+            <div class="flex items-center flex-grow justify-end pl-4 xl:pl-8">
+                <div class="flex flex-col items-end flex-grow mr-6">
+                    <div class="flex items-center space-x-4 xl:space-x-5 text-[12px] xl:text-[13px] text-gray-800 font-bold mb-3">
+                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">📍</span>店舗・ATM</a>
+                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">💴</span>金利情報</a>
+                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">🪙</span>手数料・利用料</a>
+                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">❓</span>よくあるご質問</a>
+                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">✉</span>お問い合わせ</a>
+                        <a href="#" class="flex items-center hover:text-blue-700"><span class="icon-placeholder w-4 h-4 mr-1 text-blue-900 border-none text-[12px]">🔍</span>サイト内検索</a>
+                        <div class="flex items-center space-x-2 pl-4 border-l border-gray-200 ml-2">
+                            <span class="text-[12px] text-gray-600 font-bold">文字サイズ</span>
+                            <div class="flex space-x-1">
+                                <button class="flex items-center justify-center px-3 py-1 bg-blue-900 text-white rounded-full text-[11px] font-bold">あ 標準</button>
+                                <button class="flex items-center justify-center px-3 py-1 text-blue-900 font-bold rounded-full text-[11px] hover:bg-gray-100 transition border border-transparent">あ 拡大</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="flex items-center space-x-8 xl:space-x-12 text-[14px] xl:text-[15px] font-bold text-gray-900 mr-2 xl:mr-10">
+                        <a href="#" class="hover:text-blue-700 transition">個人のお客さま</a>
+                        <a href="#" class="hover:text-blue-700 transition">法人・個人事業主のお客さま</a>
+                        <a href="#" class="hover:text-blue-700 transition">小松川信用金庫について</a>
+                        <a href="#" class="hover:text-blue-700 transition">地域への取組み</a>
+                    </nav>
+                </div>
+
+                <a href="#" class="bg-[#113177] text-white px-8 py-5 rounded-md font-bold text-sm hover:bg-blue-900 transition shadow-sm flex-shrink-0 h-[70px] flex items-center justify-center">採用サイト</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- メインビジュアル -->
+    <section class="hero-bg">
+        <div class="hero-overlay"></div>
+        <div class="inner-container w-full h-full flex items-start pt-24 relative z-10">
+            <div class="max-w-2xl text-gray-800 text-left">
+                <h2 class="text-main-copy mb-8 leading-tight">いつも、この街の、<br>あなたのそばに。</h2>
+                <p class="text-base-custom font-medium">
+                    大正7年の創業から100余年。<br>
+                    時代は変わっても、顔と顔を合わせ、<br>
+                    心を通わせる想いは変わりません。<br>
+                    100年先も、街の頼れるパートナーです。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 重要なお知らせ -->
+    <div class="bg-blue-900 text-white py-3 relative z-20">
+        <div class="inner-container flex items-center">
+            <span class="font-bold mr-8 border-r border-white/30 pr-8 whitespace-nowrap">重要なお知らせ</span>
+            <span class="text-sm mr-4 opacity-80 whitespace-nowrap">2025年09月16日</span>
+            <a href="#" class="text-sm hover:underline flex-grow truncate">手形・小切手の全面的な電子化について</a>
+            <a href="#" class="text-sm underline ml-4 opacity-90 text-[12px] whitespace-nowrap">重要なお知らせ一覧</a>
+        </div>
+    </div>
+
+    <!-- サービス案内 -->
+    <section class="bg-white py-12 border-b border-gray-50 relative z-20">
+        <div class="inner-container">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="service-card">
+                    <div class="btn-personal text-white py-5 px-8 flex justify-center items-center">
+                        <span class="text-xl font-bold">個人のお客さま</span>
+                    </div>
+                    <div class="grid grid-cols-3 divide-x divide-gray-100 py-8">
+                        <a href="#" class="flex flex-col items-center group">
+                            <span class="icon-placeholder w-14 h-14 mb-2 text-blue-800 group-hover:bg-blue-50 transition">ICON</span>
+                            <span class="text-[13px] font-bold text-blue-800">預ける・備える</span>
+                        </a>
+                        <a href="#" class="flex flex-col items-center group">
+                            <span class="icon-placeholder w-14 h-14 mb-2 text-blue-800 group-hover:bg-blue-50 transition">ICON</span>
+                            <span class="text-[13px] font-bold text-blue-800">借りる</span>
+                        </a>
+                        <a href="#" class="flex flex-col items-center group">
+                            <span class="icon-placeholder w-14 h-14 mb-2 text-blue-800 group-hover:bg-blue-50 transition">ICON</span>
+                            <span class="text-[13px] font-bold text-blue-800">相談する</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="btn-corporate text-white py-5 px-8 flex justify-center items-center">
+                        <span class="text-xl font-bold">法人・個人事業主のお客さま</span>
+                    </div>
+                    <div class="grid grid-cols-3 divide-x divide-gray-100 py-8">
+                        <a href="#" class="flex flex-col items-center group">
+                            <span class="icon-placeholder w-14 h-14 mb-2 text-green-700 group-hover:bg-green-50 transition">ICON</span>
+                            <span class="text-[13px] font-bold text-green-700">経営支援</span>
+                        </a>
+                        <a href="#" class="flex flex-col items-center group">
+                            <span class="icon-placeholder w-14 h-14 mb-2 text-green-700 group-hover:bg-green-50 transition">ICON</span>
+                            <span class="text-[13px] font-bold text-green-700">資金の調達</span>
+                        </a>
+                        <a href="#" class="flex flex-col items-center group">
+                            <span class="icon-placeholder w-14 h-14 mb-2 text-green-700 group-hover:bg-green-50 transition">ICON</span>
+                            <span class="text-[13px] font-bold text-green-700">事例紹介</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <a href="#" class="btn-simulation text-white py-4 rounded-lg flex items-center justify-center space-x-3 hover:opacity-90 transition">
+                    <span class="icon-placeholder w-6 h-6 border-white">ICON</span>
+                    <span class="font-bold">個人ローン シミュレーション</span>
+                </a>
+                <a href="#" class="btn-simulation text-white py-4 rounded-lg flex items-center justify-center space-x-3 hover:opacity-90 transition">
+                    <span class="icon-placeholder w-6 h-6 border-white">ICON</span>
+                    <span class="font-bold">住宅ローン シミュレーション</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAMPAIGN セクション -->
+    <section class="py-16 bg-gray-50 border-t border-gray-100 relative z-10">
+        <div class="inner-container text-center">
+            <h3 class="section-title-en mb-1">CAMPAIGN</h3>
+            <p class="text-blue-900 font-bold mb-10 tracking-widest text-sm">キャンペーン・おすすめ情報</p>
+
+            <div class="relative">
+                <button class="absolute -left-12 top-32 -translate-y-1/2 w-10 h-10 border border-blue-200 rounded-full hidden md:flex items-center justify-center text-blue-500 bg-white z-10 hover:bg-gray-100 transition shadow-sm">
+                    <span class="icon-placeholder w-6 h-6 text-[8px]">ICON</span>
+                </button>
+                <button class="absolute -right-12 top-32 -translate-y-1/2 w-10 h-10 border border-blue-200 rounded-full hidden md:flex items-center justify-center text-blue-500 bg-white z-10 hover:bg-gray-100 transition shadow-sm">
+                    <span class="icon-placeholder w-6 h-6 text-[8px]">ICON</span>
+                </button>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-left group">
+                        <div class="aspect-[16/10] bg-white rounded-xl mb-4 flex items-center justify-center shadow-sm">
+                            <span class="icon-placeholder w-12 h-12 text-gray-300 border-2">ICON</span>
+                        </div>
+                        <p class="font-bold text-base mb-2 group-hover:text-blue-700 transition">こましんアプリ</p>
+                        <p class="text-[13px] text-gray-600 leading-relaxed">店頭やATMに行かなくても、通帳の残高や入出金確認ができる小松川信用金庫公式のスマートフォン用アプリです。</p>
+                    </div>
+                    <div class="text-left group">
+                        <div class="aspect-[16/10] bg-white rounded-xl mb-4 flex items-center justify-center shadow-sm">
+                            <span class="icon-placeholder w-12 h-12 text-gray-300 border-2">ICON</span>
+                        </div>
+                        <p class="font-bold text-base mb-2 group-hover:text-blue-700 transition">ビジネスアシスト定期積金</p>
+                        <p class="text-[13px] text-gray-600 leading-relaxed">法人・個人事業者様限定で定期預金に上乗せ金利を適用します。法人会会員様は更にお得です。この機会に是非お預け入れください。</p>
+                    </div>
+                    <div class="text-left group">
+                        <div class="aspect-[16/10] bg-white rounded-xl mb-4 flex items-center justify-center shadow-sm">
+                            <span class="icon-placeholder w-12 h-12 text-gray-300 border-2">ICON</span>
+                        </div>
+                        <p class="font-bold text-base mb-2 group-hover:text-blue-700 transition">ファミリー定期積金</p>
+                        <p class="text-[13px] text-gray-600 leading-relaxed">子育て世代のお客様を応援すべく、お子さまの人数に応じて金利を上乗せする「ファミリー定期積金」を提供させていただいております。</p>
+                    </div>
+                </div>
+                <div class="mt-12 text-right">
+                    <a href="#" class="text-blue-800 font-bold text-sm hover:underline inline-flex items-center">
+                        <span class="icon-placeholder w-4 h-4 mr-2 border-blue-800 text-[8px]">ICON</span>
+                        その他のキャンペーン・おすすめ情報
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 地域貢献セクション -->
+    <section class="region-bg py-24 relative overflow-hidden">
+        <div class="inner-container relative z-30 flex flex-col lg:flex-row items-center">
+
+            <div class="w-full lg:w-[55%] lg:pr-12 relative z-30">
+                <h3 class="text-[32px] font-bold text-gray-900 mb-8 leading-tight tracking-wide">地域とともに、次の未来へ。</h3>
+
+                <div class="space-y-6 text-[15px] text-gray-700 leading-relaxed mb-10">
+                    <p>小松川信用金庫は、東京都の城東地区から千葉県北西部、埼玉県<br>南東部にわたる地域で、金融サービスを提供しております。</p>
+                    <p>私たちが目指すのは、お客様、職員、金庫が手を取り合い、みんなの<br>「豊かで潤いのある生活」を育んでいく未来です。金融サー<br>ビスの提供にとどまらず、地域の活性化に貢献し、皆様一人ひと<br>りに寄り添うパートナーでありたいと願っています。</p>
+                </div>
+
+                <div class="grid grid-cols-1 gap-4 max-w-[380px]">
+                    <a href="#" class="region-nav-btn group">
+                        <span class="font-bold text-gray-900 pl-3 text-sm">こましんについて</span>
+                        <div class="triangle-right group-hover:border-l-blue-600 transition"></div>
+                    </a>
+                    <a href="#" class="region-nav-btn group">
+                        <span class="font-bold text-gray-900 pl-3 text-sm">地域への取組み</span>
+                        <div class="triangle-right group-hover:border-l-blue-600 transition"></div>
+                    </a>
+                    <a href="#" class="region-nav-btn group">
+                        <span class="font-bold text-gray-900 pl-3 text-sm">サステナビリティへの取組み</span>
+                        <div class="triangle-right group-hover:border-l-blue-600 transition"></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full lg:w-[45%] relative h-[450px] mt-16 lg:mt-0 z-20">
+                <div class="absolute top-2 right-[-15%] w-[70%] bg-white p-[12px] shadow-xl transform rotate-[6deg] z-10 transition hover:rotate-3 hover:scale-105 duration-500">
+                    <div class="aspect-[3/4] bg-gray-200 flex flex-col items-center justify-center overflow-hidden relative">
+                        <span class="text-gray-400 font-bold text-xs z-10">写真（建物）</span>
+                        <div class="absolute inset-0 bg-gradient-to-b from-blue-100 to-green-100 opacity-50"></div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-6 left-[-5%] w-[90%] bg-white p-[12px] shadow-2xl transform -rotate-[4deg] z-20 transition hover:-rotate-2 hover:scale-105 duration-500">
+                    <div class="aspect-[16/9] bg-gray-300 flex flex-col items-center justify-center overflow-hidden relative">
+                        <span class="text-gray-500 font-bold text-xs z-10">写真（相談風景）</span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-100 opacity-80"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- NEWSセクション -->
+    <section class="py-20 bg-white border-t border-gray-100 relative z-20">
+        <div class="inner-container">
+            <div class="text-center mb-10">
+                <h3 class="section-title-en">NEWS</h3>
+                <p class="text-sm font-bold text-gray-800 -mt-1">お知らせ</p>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <button class="px-6 py-2 rounded-full bg-blue-900 text-white text-sm font-bold">すべて</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">お知らせ</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">個人のお客様</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">法人のお客様</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">キャンペーン</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">イベント</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition">採用</button>
+            </div>
+
+            <div class="divide-y divide-gray-100 border-t border-b border-gray-100 mb-12">
+                <a href="#" class="flex flex-col md:flex-row md:items-center py-5 group">
+                    <span class="text-sm text-gray-500 w-32 mb-2 md:mb-0">2025年10月20日</span>
+                    <span class="tag-personal text-white text-[10px] px-4 py-1 rounded w-fit mb-2 md:mb-0 md:mr-6">個人のお客様</span>
+                    <span class="flex-grow text-sm font-medium group-hover:text-blue-700 transition">【イベント情報】「江戸川区環境をよくする星くず拾い大会」に参加します！</span>
+                    <span class="icon-placeholder w-5 h-5 ml-4 border-gray-300 text-[8px] group-hover:border-blue-700">ICON</span>
+                </a>
+                <a href="#" class="flex flex-col md:flex-row md:items-center py-5 group">
+                    <span class="text-sm text-gray-500 w-32 mb-2 md:mb-0">2025年10月20日</span>
+                    <span class="tag-corporate text-white text-[10px] px-4 py-1 rounded w-fit mb-2 md:mb-0 md:mr-6">法人のお客様</span>
+                    <span class="flex-grow text-sm font-medium group-hover:text-blue-700 transition">【イベント情報】産業ときめきフェアin EDOGAWAのご案内</span>
+                    <span class="icon-placeholder w-5 h-5 ml-4 border-gray-300 text-[8px] group-hover:border-blue-700">ICON</span>
+                </a>
+                <a href="#" class="flex flex-col md:flex-row md:items-center py-5 group">
+                    <span class="text-sm text-gray-500 w-32 mb-2 md:mb-0">2025年10月16日</span>
+                    <span class="tag-campaign text-white text-[10px] px-4 py-1 rounded w-fit mb-2 md:mb-0 md:mr-6">キャンペーン</span>
+                    <span class="flex-grow text-sm font-medium group-hover:text-blue-700 transition">【イベント開催】第3回こましんマルシェ（ここまちハロウィンパーティ）のご案内</span>
+                    <span class="icon-placeholder w-5 h-5 ml-4 border-gray-300 text-[8px] group-hover:border-blue-700">ICON</span>
+                </a>
+                <a href="#" class="flex flex-col md:flex-row md:items-center py-5 group">
+                    <span class="text-sm text-gray-500 w-32 mb-2 md:mb-0">2025年10月16日</span>
+                    <span class="tag-event text-white text-[10px] px-4 py-1 rounded w-fit mb-2 md:mb-0 md:mr-6">イベント</span>
+                    <span class="flex-grow text-sm font-medium group-hover:text-blue-700 transition">第42回こましん会合同ゴルフ競技会を開催しました！</span>
+                    <span class="icon-placeholder w-5 h-5 ml-4 border-gray-300 text-[8px] group-hover:border-blue-700">ICON</span>
+                </a>
+                <a href="#" class="flex flex-col md:flex-row md:items-center py-5 group">
+                    <span class="text-sm text-gray-500 w-32 mb-2 md:mb-0">2025年10月16日</span>
+                    <span class="tag-notice text-white text-[10px] px-4 py-1 rounded w-fit mb-2 md:mb-0 md:mr-6">お知らせ</span>
+                    <span class="flex-grow text-sm font-medium group-hover:text-blue-700 transition">第48回江戸川区民まつりに参加しました</span>
+                    <span class="icon-placeholder w-5 h-5 ml-4 border-gray-300 text-[8px] group-hover:border-blue-700">ICON</span>
+                </a>
+            </div>
+
+            <div class="flex justify-center">
+                <a href="#" class="bg-blue-900 text-white px-10 py-4 rounded-sm font-bold text-sm flex items-center hover:bg-blue-800 transition shadow-lg">
+                    お知らせ一覧を見る
+                    <span class="icon-placeholder w-4 h-4 ml-4 border-white text-[6px]">ICON</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- こましんアプリ詳細セクション -->
+    <section class="app-section-bg py-8 overflow-hidden">
+        <div class="inner-container flex flex-col lg:flex-row items-center justify-center lg:space-x-12">
+            <div class="lg:w-2/5 relative flex justify-center items-center pt-20 pb-4 w-full mb-8 lg:mb-0">
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-64 app-speech-bubble z-20 px-4 py-5 text-center shadow-lg">
+                    <span class="text-[#a3cf62] font-black text-3xl tracking-tighter">こましん<br>アプリ</span>
+                </div>
+                <div class="w-56 h-[380px] bg-white rounded-[30px] border-[8px] border-gray-800 shadow-2xl relative overflow-hidden flex flex-col items-center justify-center">
+                    <span class="icon-placeholder w-16 h-16 text-gray-300 border-4 mb-4">ICON</span>
+                    <div class="absolute bottom-0 w-full h-12 bg-gray-50 border-t border-gray-100 flex justify-around items-center px-3">
+                        <span class="w-5 h-5 rounded-full border border-gray-300"></span>
+                        <span class="w-5 h-5 rounded-full border border-gray-300"></span>
+                        <span class="w-10 h-10 rounded-full bg-blue-500 -mt-6 shadow-md border-2 border-white"></span>
+                        <span class="w-5 h-5 rounded-full border border-gray-300"></span>
+                        <span class="w-5 h-5 rounded-full border border-gray-300"></span>
+                    </div>
+                </div>
+                <div class="absolute bottom-2 left-6 lg:left-0 w-24 h-24 bg-[#19a544] rounded-full flex flex-col items-center justify-center text-white font-bold border-4 border-white shadow-xl z-20">
+                    <span class="text-xs">ご利用</span>
+                    <span class="text-xl">無料！</span>
+                </div>
+            </div>
+
+            <div class="lg:w-1/2 text-blue-900 w-full flex flex-col justify-center lg:pl-10">
+                <p class="text-base font-bold mb-1 leading-relaxed">店頭やATMに行かなくても、通帳の残高や入出金確認ができる</p>
+                <p class="text-base font-bold mb-6">小松川信用金庫公式のスマートフォン用アプリです。</p>
+
+                <div class="w-full max-w-[460px]">
+                    <div class="bg-[#e5e7eb] rounded-xl py-5 pr-6 pl-24 mb-5 relative flex items-center w-full">
+                        <div class="absolute top-0 left-0 h-full w-20 bg-[#399a53] rounded-l-xl flex items-center justify-center text-center">
+                            <span class="text-white font-bold text-xs leading-snug">便利な<br>機能搭載</span>
+                        </div>
+                        <ul class="space-y-1.5 text-sm font-bold list-disc pl-4 text-gray-700 w-full">
+                            <li>新規口座開設</li>
+                            <li>通帳レス機能</li>
+                            <li>個人インターネットバンキング ログイン</li>
+                            <li>口座残高・入出金明細の確認</li>
+                            <li>保有資産照会</li>
+                            <li>お知らせ通知</li>
+                            <li class="list-none text-[10px] pt-2 text-gray-400 font-normal -ml-4">※アプリの機能は順次拡大予定です</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-[#e5e7eb] rounded-xl py-6 px-4 mb-6 flex items-center justify-evenly w-full border-2 border-[#b5e082] shadow-[0_0_20px_rgba(181,224,130,0.6)]">
+                        <div class="flex flex-col items-center space-y-3 w-1/2">
+                            <span class="icon-placeholder w-16 h-16 text-gray-400 border-gray-300 bg-gray-50 text-[10px] rounded-full">QR</span>
+                            <div class="w-28 h-8 bg-[#222] rounded flex items-center justify-center text-white text-[10px] font-bold">App Store</div>
+                        </div>
+                        <div class="w-px h-24 bg-gray-300"></div>
+                        <div class="flex flex-col items-center space-y-3 w-1/2">
+                            <span class="icon-placeholder w-16 h-16 text-gray-400 border-gray-300 bg-gray-50 text-[10px] rounded-full">QR</span>
+                            <div class="w-28 h-8 bg-[#222] rounded flex items-center justify-center text-white text-[10px] font-bold">Google Play</div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-start w-full">
+                        <a href="#" class="inline-flex items-center justify-between w-full px-6 py-4 bg-[#399a53] text-white font-bold rounded-xl hover:bg-green-700 transition shadow-md text-base">
+                            <span>こましんアプリについて</span>
+                            <span class="icon-placeholder w-6 h-6 border-white text-[6px]">ICON</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- バナーリンク集 -->
+    <section class="py-16 bg-[#f6f8f1]">
+        <div class="inner-container">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-gray-700">公式キャラクター こまちゃん</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-[#0068b7]">こましんクラウドファクタリング</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-blue-800">Σbiz シグマビズ</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-red-600">しんきんの魅力紹介動画</a>
+
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-[10px] font-bold bg-blue-600 text-white">マネーロンダリング・テロ資金供与対策<br>取引時の情報提供にご協力ください</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-blue-700">シグマバンクグループ<br>業務提携について</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-blue-600">お使いみち自由なカードローン<br>シグマキャッスル</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-red-800">足立成和信用金庫</a>
+
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-green-700">亀有信用金庫</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-green-700">亀有信用金庫</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-red-600">東葉信用金庫</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-indigo-900">警視庁</a>
+
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-[10px] font-bold text-gray-700">暴力団追放運動推進都民センター</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-xs font-bold text-blue-900">預金保険機構</a>
+                <a href="#" class="bg-white rounded-sm border border-gray-200 hover:shadow-md transition flex items-center justify-center h-20 px-2 text-center text-[10px] font-bold text-gray-700">国税のキャッシュレス納付</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 完全版 フッター -->
+    <footer class="text-white">
+        <div class="footer-top-bg py-16">
+            <div class="inner-container">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                    <div>
+                        <h4 class="font-bold mb-4 text-sm">個人のお客さま</h4>
+                        <ul class="space-y-3 text-xs text-white/90">
+                            <li><a href="#" class="hover:underline">預ける・備える</a></li>
+                            <li><a href="#" class="hover:underline">借りる</a></li>
+                            <li><a href="#" class="hover:underline">相談する</a></li>
+                            <li><a href="#" class="hover:underline">便利に使う</a></li>
+                            <li><a href="#" class="hover:underline">個人用インターネットバンキング</a></li>
+                            <li><a href="#" class="hover:underline">キャンペーン</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4 text-sm">法人・個人事業主のお客さま</h4>
+                        <ul class="space-y-3 text-xs text-white/90">
+                            <li><a href="#" class="hover:underline">中小企業の経営支援</a></li>
+                            <li><a href="#" class="hover:underline">資金の調達</a></li>
+                            <li><a href="#" class="hover:underline">事例紹介</a></li>
+                            <li><a href="#" class="hover:underline">キャンペーン</a></li>
+                            <li><a href="#" class="hover:underline">法人用インターネットバンキング</a></li>
+                            <li><a href="#" class="hover:underline">こましんクラウドファクタリング</a></li>
+                            <li><a href="#" class="hover:underline">こましんでんさいサービス</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4 text-sm">地域への取組み</h4>
+                        <ul class="space-y-3 text-xs text-white/90">
+                            <li><a href="#" class="hover:underline">地域密着型金融推進計画</a></li>
+                            <li><a href="#" class="hover:underline">中小企業の経営支援に関する取組</a></li>
+                            <li><a href="#" class="hover:underline">芸術・文化・スポーツ振興</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4 text-sm">小松川信用金庫について</h4>
+                        <ul class="space-y-3 text-xs text-white/90">
+                            <li><a href="#" class="hover:underline">理事長挨拶</a></li>
+                            <li><a href="#" class="hover:underline">当金庫の概要</a></li>
+                            <li><a href="#" class="hover:underline">経営理念・方針</a></li>
+                            <li><a href="#" class="hover:underline">シンボルマークの由来</a></li>
+                            <li><a href="#" class="hover:underline">経営の概況</a></li>
+                            <li><a href="#" class="hover:underline">ディスクロージャー</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="w-full h-px bg-white/20 mb-10"></div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div>
+                        <h4 class="font-bold mb-4 text-sm">サステナビリティ</h4>
+                        <ul class="space-y-3 text-xs text-white/90">
+                            <li><a href="#" class="hover:underline">小松川信用金庫 SDGs宣言</a></li>
+                            <li><a href="#" class="hover:underline">環境問題対応</a></li>
+                            <li><a href="#" class="hover:underline">金融円滑化の取組み</a></li>
+                            <li class="leading-relaxed"><a href="#" class="hover:underline">女性活躍推進法に基づく一般事業<br>主行動計画</a></li>
+                            <li class="leading-relaxed"><a href="#" class="hover:underline">次世代育成支援対策推進法に基<br>づく一般事業主行動計画</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4 text-sm">店舗・ATM</h4>
+                        <div class="grid grid-cols-2 gap-4 text-xs text-white/90">
+                            <ul class="space-y-3">
+                                <li><a href="#" class="hover:underline">本部</a></li>
+                                <li><a href="#" class="hover:underline">中平井支店</a></li>
+                                <li><a href="#" class="hover:underline">亀戸支店</a></li>
+                                <li><a href="#" class="hover:underline">奥戸支店</a></li>
+                                <li><a href="#" class="hover:underline">市川南支店</a></li>
+                                <li><a href="#" class="hover:underline">平井支店</a></li>
+                            </ul>
+                            <ul class="space-y-3">
+                                <li><a href="#" class="hover:underline">本店</a></li>
+                                <li><a href="#" class="hover:underline">東四つ木支店</a></li>
+                                <li><a href="#" class="hover:underline">篠崎支店</a></li>
+                                <li><a href="#" class="hover:underline">菅原橋支店</a></li>
+                                <li><a href="#" class="hover:underline">鹿骨支店</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-4 mt-1 md:mt-0">
+                        <a href="#" class="font-bold text-sm hover:underline">金利情報</a>
+                        <a href="#" class="font-bold text-sm hover:underline">手数料・利用料</a>
+                        <a href="#" class="font-bold text-sm hover:underline">お知らせ</a>
+                        <a href="#" class="font-bold text-sm hover:underline">よくあるご質問</a>
+                        <a href="#" class="font-bold text-sm hover:underline">お問い合わせ</a>
+                        <a href="#" class="font-bold text-sm hover:underline">採用サイト</a>
+                    </div>
+                    <div class="hidden md:block"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-[#333333] py-10">
+            <div class="inner-container flex flex-col md:flex-row justify-between items-start md:items-center">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center space-x-3 mb-5">
+                        <div class="w-6 h-6 transform rotate-45 flex overflow-hidden">
+                            <div class="w-1/2 h-full bg-blue-500"></div>
+                            <div class="w-1/2 h-full bg-green-500"></div>
+                        </div>
+                        <h2 class="text-2xl font-bold tracking-widest">小松川信用金庫</h2>
+                    </div>
+                    <div class="space-y-1">
+                        <p class="font-bold text-sm">小松川信用金庫（金庫コード:1326）</p>
+                        <p class="font-bold text-[11px] uppercase tracking-wider mb-2">THE KOMATSUGAWA SHINKIN BANK</p>
+                        <p class="text-xs text-gray-300 pt-3">〒132-8711 東京都江戸川区平井6-23-23</p>
+                        <p class="text-xs text-gray-300">TEL 03-3617-1326</p>
+                    </div>
+                </div>
+
+                <div class="text-[10px] text-gray-300 space-y-2 leading-relaxed md:w-1/2">
+                    <p>商号等：小松川信用金庫　信金中央金庫代理店　金融機関コード：1326</p>
+                    <p>信用金庫代理業　信用金庫法第85条の2の規定に基づく信用金庫代理業者　所属信用金庫：信金中央金庫</p>
+                    <p>信託契約代理業　登録番号：関東財務局長（代信）第108号　所属信託会社：信金中央金庫</p>
+                    <p>登録金融機関：関東財務局長（登金）第156号</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-[#222222] py-8 border-t border-gray-700">
+            <div class="inner-container text-center">
+                <div class="flex flex-wrap justify-center items-center text-xs text-gray-300 mb-3 space-x-3 space-y-2 md:space-y-0">
+                    <a href="#" class="hover:text-white">信用金庫代理業にかかる掲示</a>
+                    <span class="text-gray-500 hidden md:inline">|</span>
+                    <a href="#" class="hover:text-white">信託契約代理店にかかる掲示</a>
+                    <span class="text-gray-500 hidden md:inline">|</span>
+                    <a href="#" class="hover:text-white">信金中央金庫ディスクロージャー誌</a>
+                    <span class="text-gray-500 hidden md:inline">|</span>
+                    <a href="#" class="hover:text-white">各種指針・方針</a>
+                </div>
+                <div class="flex flex-wrap justify-center items-center text-xs text-gray-300 mb-8 space-x-3 space-y-2 md:space-y-0">
+                    <a href="#" class="hover:text-white">免責事項</a>
+                    <span class="text-gray-500 hidden md:inline">|</span>
+                    <a href="#" class="hover:text-white">ソーシャルメディアポリシー</a>
+                    <span class="text-gray-500 hidden md:inline">|</span>
+                    <a href="#" class="hover:text-white">プライバシーポリシー</a>
+                    <span class="text-gray-500 hidden md:inline">|</span>
+                    <a href="#" class="hover:text-white">サイトマップ</a>
+                </div>
+                <p class="text-[10px] text-gray-400">copyright&copy;The Komatsugawa Shinkin Bank all rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 固定サイドバー -->
+    <div class="sticky-sidebar flex flex-col space-y-px">
+        <a href="#" class="btn-personal text-white p-4 w-32 flex flex-col items-center justify-center rounded-l-md shadow-lg group">
+            <span class="icon-placeholder w-6 h-6 mb-1 border-white">ICON</span>
+            <span class="text-xs text-center leading-tight">個人用IB</span>
+        </a>
+        <a href="#" class="btn-corporate text-white p-4 w-32 flex flex-col items-center justify-center rounded-l-md shadow-lg group">
+            <span class="icon-placeholder w-6 h-6 mb-1 border-white">ICON</span>
+            <span class="text-xs text-center leading-tight">法人用IB</span>
+        </a>
+    </div>
+
+    </div><!-- /#site-content -->
+
+</body>
+</html>
