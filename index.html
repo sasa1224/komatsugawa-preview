@@ -203,6 +203,37 @@
         #pw-gate button:hover { background: #005a9c; }
         #pw-error { color: #e11d48; font-size: 13px; margin-top: 8px; display: none; }
         #site-content { display: none; }
+
+        /* 提案切り替えバー */
+        #teian-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11,42,107,0.95);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px 16px;
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+        #teian-bar span { color: #fff; font-size: 12px; font-weight: bold; margin-right: 4px; }
+        .teian-btn {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            padding: 5px 18px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .teian-btn:hover { background: rgba(255,255,255,0.3); }
+        .teian-btn.active { background: #fff; color: #0b2a6b; border-color: #fff; }
+        body.has-teian-bar header { top: 38px; }
     </style>
 </head>
 <body class="bg-white overflow-x-hidden">
@@ -230,6 +261,8 @@
             if (input === '32863380') {
                 document.getElementById('pw-gate').style.display = 'none';
                 document.getElementById('site-content').style.display = 'block';
+                document.getElementById('teian-bar').style.display = 'flex';
+                document.body.classList.add('has-teian-bar');
             } else {
                 document.getElementById('pw-error').style.display = 'block';
                 document.getElementById('pw-input').value = '';
@@ -238,6 +271,29 @@
         document.getElementById('pw-input').addEventListener('keydown', function(e) {
             if (e.key === 'Enter') checkPassword();
         });
+    </script>
+
+    <!-- 提案切り替えバー -->
+    <div id="teian-bar" style="display:none;">
+        <span>MV提案：</span>
+        <button class="teian-btn active" onclick="switchTeian(1)">提案1</button>
+        <button class="teian-btn" onclick="switchTeian(2)">提案2</button>
+        <button class="teian-btn" onclick="switchTeian(3)">提案3</button>
+    </div>
+
+    <script>
+        var teianImages = {
+            1: 'panorama.png',
+            2: 'teian2.png',
+            3: 'teian3.jpg'
+        };
+        function switchTeian(num) {
+            var hero = document.querySelector('.hero-bg');
+            hero.style.backgroundImage = "url('" + teianImages[num] + "')";
+            document.querySelectorAll('.teian-btn').forEach(function(btn, i) {
+                btn.classList.toggle('active', i + 1 === num);
+            });
+        }
     </script>
 
     <!-- サイト本体 -->
