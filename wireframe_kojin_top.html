@@ -1,0 +1,1040 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>No.1 ② 個人のお客様TOP — ワイヤーフレーム</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+  body { font-family: 'Noto Sans JP', sans-serif; background: #f3f4f6; }
+
+  .wf-img  { border: 2px dashed #9ca3af; background: #e5e7eb; display:flex; align-items:center; justify-content:center; color:#9ca3af; font-size:11px; }
+  .wf-box  { border: 2px dashed #9ca3af; background: #f9fafb; }
+  .wf-nav  { background: #4b5563; color:#fff; }
+  .wf-foot { background: #374151; color:#e5e7eb; }
+  .wf-hero { background: linear-gradient(135deg,#f3f4f6,#e5e7eb); border:2px dashed #d1d5db; }
+  .wf-gold-bar { background:#e5e7eb; color:#374151; }
+  .wf-frame { border:2px solid #d1d5db; border-radius:8px; overflow:hidden; background:#fff; }
+
+  /* アイコン・ロゴ プレースホルダー */
+  .ic-ph { display:inline-flex; align-items:center; justify-content:center; border:1.5px solid #9ca3af; background:#f3f4f6; color:#6b7280; border-radius:5px; font-size:9px; font-weight:700; white-space:nowrap; }
+  .ic-lg  { width:64px; height:64px; border-radius:8px; font-size:10px; }
+  .ic-md  { width:40px; height:40px; border-radius:6px; }
+  .ic-sm  { width:28px; height:28px; border-radius:5px; font-size:8px; }
+  .ic-xs  { width:18px; height:18px; border-radius:3px; font-size:7px; }
+  .logo-ph { display:inline-flex; align-items:center; justify-content:center; border:1.5px solid #9ca3af; background:#f3f4f6; color:#6b7280; border-radius:5px; padding:3px 10px; font-size:9px; font-weight:700; }
+
+  .anno { font-size:11px; color:#4b5563; background:#f3f4f6; border-left:3px solid #4b5563; padding:4px 10px; margin-top:6px; border-radius:0 4px 4px 0; }
+  .wf-section-label { font-size:9px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#6b7280; margin-bottom:4px; }
+
+  .badge-2 { background:#f3f4f6; color:#374151; border:1px solid #d1d5db; }
+
+  /* タブ */
+  .tab-btn { transition: all .15s; }
+  .tab-btn.active { background:#4b5563; color:#fff; }
+  .tab-btn:not(.active) { background:#fff; color:#4b5563; border:2px solid #4b5563; }
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
+
+  /* SP フォン枠 */
+  .phone-shell {
+    background:#4b5563;
+    border-radius:32px;
+    padding:12px 8px;
+    display:inline-block;
+    box-shadow:0 8px 32px rgba(0,0,0,.25);
+  }
+  .phone-notch {
+    width:60px; height:14px; background:#0f172a;
+    border-radius:0 0 10px 10px; margin:0 auto 8px;
+  }
+  .phone-screen {
+    border-radius:20px;
+    overflow:hidden;
+    width:320px;
+    background:#fff;
+  }
+  .phone-home {
+    width:40px; height:5px; background:#4b5563;
+    border-radius:9px; margin:8px auto 0;
+  }
+
+  /* PC ブラウザ枠 */
+  .browser-shell {
+    border:2px solid #d1d5db;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 24px rgba(0,0,0,.08);
+    background:#fff;
+  }
+  .browser-bar {
+    background:#e5e7eb;
+    padding:8px 12px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .browser-dot { width:10px; height:10px; border-radius:50%; }
+  .browser-url {
+    flex:1;
+    background:#fff;
+    border-radius:4px;
+    padding:3px 10px;
+    font-size:11px;
+    color:#6b7280;
+    margin-left:8px;
+  }
+
+  /* フッターナビ */
+  .footer-nav-area {
+    background: #f3f4f6;
+    position: relative;
+  }
+
+  /* パスワードゲート */
+  #pw-gate {
+    position:fixed; inset:0; z-index:9999;
+    background:#f0fdf4;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #pw-gate .gate-box {
+    background:#fff; border-radius:16px; padding:40px 48px;
+    max-width:400px; width:90%; text-align:center; box-shadow:0 4px 24px rgba(0,0,0,.1); border:1px solid #d1fae5;
+  }
+</style>
+<script>
+(function(){
+  const KEY='wf_top_auth', PASS='32863380';
+  function unlock(){ document.getElementById('pw-gate').style.display='none'; }
+  window.checkPw = function(){
+    if(document.getElementById('pw-input').value === PASS){
+      sessionStorage.setItem(KEY,'1'); unlock();
+    } else {
+      document.getElementById('pw-error').style.display='block';
+    }
+  };
+  window.onkeydown = function(e){ if(e.key==='Enter') window.checkPw(); };
+  if(sessionStorage.getItem(KEY)==='1') document.addEventListener('DOMContentLoaded', unlock);
+})();
+</script>
+</head>
+<body>
+
+<!-- パスワードゲート -->
+<div id="pw-gate">
+  <div class="gate-box">
+    <p style="font-size:14px; color:#9ca3af; margin-bottom:4px;">小松川信用金庫 コーポレートサイトリニューアル</p>
+    <h2 style="font-size:18px; font-weight:700; color:#374151; margin-bottom:4px;">No.1 ② 個人TOP ワイヤーフレーム</h2>
+    <p style="font-size:15px; color:#6b7280; margin-bottom:24px;">閲覧にはパスワードが必要です</p>
+    <input id="pw-input" type="password" placeholder="パスワードを入力"
+      style="width:100%; border:2px solid #d1d5db; border-radius:8px; padding:10px 14px; font-size:15px; outline:none; margin-bottom:8px; box-sizing:border-box;">
+    <p id="pw-error" style="display:none; color:#dc2626; font-size:12px; margin-bottom:8px;">パスワードが正しくありません</p>
+    <button onclick="checkPw()"
+      style="width:100%; background:#374151; color:#fff; font-weight:700; border:none; border-radius:8px; padding:12px; font-size:15px; cursor:pointer;">
+      閲覧する
+    </button>
+    <p style="font-size:14px; color:#9ca3af; margin-top:16px;">インフォネット / 2026.04 / 社外秘</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="bg-white border-b sticky top-0 z-50 shadow-sm">
+  <div class="max-w-5xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div>
+      <p class="text-xs text-gray-400">小松川信用金庫 コーポレートサイトリニューアル</p>
+      <h1 class="text-sm font-bold text-gray-900">No.1 ② 個人のお客様TOP — ワイヤーフレーム（PC: 1440px外幅 / 1280pxインナー / SP: 375px）</h1>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="badge-2 rounded px-3 py-1 text-xs font-bold">② カテゴリTOP（ポータル型）</span>
+      <span class="text-xs text-gray-400">2026.04 / インフォネット</span>
+    </div>
+  </div>
+</header>
+
+<!-- タブ切替 -->
+<div class="px-6 pt-8 pb-6">
+  <div class="flex gap-3">
+    <button id="btn-pc" class="tab-btn active rounded-lg px-8 py-3 font-bold text-sm" onclick="switchTab('pc')">
+      🖥 PC版（1440px）
+    </button>
+    <button id="btn-sp" class="tab-btn rounded-lg px-8 py-3 font-bold text-sm" onclick="switchTab('sp')">
+      📱 SP版（375px）
+    </button>
+  </div>
+</div>
+
+<!-- ==============================
+     PC版（全幅）
+============================== -->
+<div id="pane-pc" class="tab-pane active px-6 pb-8">
+  <!-- 外幅1440px想定 / インナー1280px -->
+  <div class="browser-shell" style="width:100%; max-width:none;">
+      <!-- ブラウザバー -->
+      <div class="browser-bar">
+        <div class="browser-dot bg-red-400"></div>
+        <div class="browser-dot bg-yellow-400"></div>
+        <div class="browser-dot bg-gray-400"></div>
+        <div class="browser-url">www.shinkin.co.jp/komashin/kojin/index.html</div>
+        <span style="font-size:10px; color:#9ca3af; margin-left:8px;">1440px幅 / インナー1280px</span>
+      </div>
+
+      <!-- ページ本体（フォントサイズ 14-16px基準） -->
+      <div style="font-size:16px; line-height:1.8;">
+
+        <!-- ===== 共通ヘッダー（実デザイン準拠・2段構造） ===== -->
+        <header class="bg-white border-b border-gray-200">
+
+          <!-- 上段: ロゴ ＋ ユーティリティナビ ＋ 採用ボタン -->
+          <div style="max-width:1280px; margin:0 auto; padding:12px 24px;" class="flex items-center justify-between gap-6">
+
+            <!-- ロゴ -->
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <span class="logo-ph" style="width:36px; height:36px;">ロゴ</span>
+              <span class="font-bold text-gray-900" style="font-size:20px; letter-spacing:.03em;">小松川信用金庫</span>
+            </div>
+
+            <!-- ユーティリティナビ -->
+            <nav class="flex items-center gap-4 text-gray-600 flex-1 justify-center" style="font-size:13px;">
+              <a class="flex items-center gap-1 hover:text-gray-700 whitespace-nowrap"><span class="ic-ph ic-xs">アイコン</span>店舗・ATM</a>
+              <a class="flex items-center gap-1 hover:text-gray-700 whitespace-nowrap"><span class="ic-ph ic-xs">アイコン</span>金利情報</a>
+              <a class="flex items-center gap-1 hover:text-gray-700 whitespace-nowrap"><span class="ic-ph ic-xs">アイコン</span>手数料・利用料</a>
+              <a class="flex items-center gap-1 hover:text-gray-700 whitespace-nowrap"><span class="ic-ph ic-xs">アイコン</span>よくあるご質問</a>
+              <a class="flex items-center gap-1 hover:text-gray-700 whitespace-nowrap"><span class="ic-ph ic-xs">アイコン</span>お問い合わせ</a>
+              <a class="flex items-center gap-1 hover:text-gray-700 whitespace-nowrap"><span class="ic-ph ic-xs">アイコン</span>サイト内検索</a>
+              <span class="text-gray-400 whitespace-nowrap">文字サイズ
+                <span class="ml-1 bg-gray-700 text-white rounded px-1.5 py-0.5" style="font-size:11px;">あ 標準</span>
+                <span class="ml-1 text-gray-700 underline cursor-pointer" style="font-size:13px;">あ 拡大</span>
+              </span>
+            </nav>
+
+            <!-- 採用サイトボタン -->
+            <a class="flex-shrink-0 bg-gray-800 text-white font-bold px-6 py-3 whitespace-nowrap" style="font-size:15px;">採用サイト</a>
+          </div>
+
+          <!-- 下段: メインナビ -->
+          <div class="border-t border-gray-100">
+            <div style="max-width:1280px; margin:0 auto; padding:0 24px;" class="flex items-center">
+              <a class="px-8 py-3 font-bold text-gray-900 border-b-2 border-gray-700 whitespace-nowrap" style="font-size:15px;">個人のお客さま</a>
+              <a class="px-8 py-3 text-gray-700 hover:text-gray-900 whitespace-nowrap" style="font-size:15px;">法人・個人事業主のお客さま</a>
+              <a class="px-8 py-3 text-gray-700 hover:text-gray-900 whitespace-nowrap" style="font-size:15px;">小松川信用金庫について</a>
+              <a class="px-8 py-3 text-gray-700 hover:text-gray-900 whitespace-nowrap" style="font-size:15px;">地域への取組み</a>
+            </div>
+          </div>
+
+        </header>
+
+        <!-- パンくず -->
+        <div class="bg-gray-50 border-b border-gray-200">
+          <div style="max-width:1280px; margin:0 auto; padding:6px 24px; font-size:13px;" class="text-gray-400">
+            トップ &gt; <strong class="text-gray-600">個人のお客さま</strong>
+          </div>
+        </div>
+
+        <!-- ===== ヒーローバナー ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:32px 24px 0;">
+          <div class="wf-hero rounded-lg flex flex-col items-center justify-center gap-2" style="height:110px;">
+            <h1 class="text-gray-700 font-bold" style="font-size:30px;">個人のお客さま</h1>
+            <p class="text-gray-500" style="font-size:14px;">リード文：ためる・借りる・そなえる。あなたの暮らしをサポートします。（1行）</p>
+          </div>
+          <p class="anno mt-2">h1テキスト＋リード文1行。背景は水彩画または淡いグラデーション（デザイナー確認要）</p>
+        </div>
+
+        <!-- ===== A-2: CTA帯（相談・電話） ===== -->
+        <div style="background:#f9fafb; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb; margin-top:24px;">
+          <div style="max-width:1280px; margin:0 auto; padding:16px 24px;" class="flex items-center gap-4 justify-center">
+            <span class="text-gray-900 font-bold" style="font-size:15px;">お気軽にご相談ください</span>
+            <a class="bg-gray-200 text-gray-800 font-bold rounded-lg px-6 py-2.5 flex items-center gap-2 whitespace-nowrap border border-gray-300" style="font-size:14px;">
+              <span class="ic-ph ic-xs">アイコン</span> 電話で相談
+            </a>
+            <a class="bg-white border-2 border-gray-700 text-gray-900 font-bold rounded-lg px-6 py-2.5 flex items-center gap-2 whitespace-nowrap" style="font-size:14px;">
+              <span class="ic-ph ic-xs">アイコン</span> 資料請求
+            </a>
+            <span class="text-gray-400 text-xs ml-4">平日 9:00〜15:00（窓口）</span>
+          </div>
+        </div>
+        <div style="max-width:1280px; margin:0 auto; padding:0 24px;">
+          <p class="anno">A-2: CTAボタン帯。電話・資料請求の2ルート。固定フッターバーとしてSPでも常設検討。</p>
+        </div>
+
+        <!-- ===== グリッドナビ（インナー1280px） ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:24px 24px 0;">
+          <p class="wf-section-label">▼ 目的で選ぶ（グリッドナビ・6ブロック）</p>
+          <div class="grid grid-cols-6 gap-4">
+            <a class="wf-box rounded-xl p-5 text-center cursor-pointer">
+              <div class="wf-img rounded-lg mb-3" style="height:56px; font-size:12px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">ためる・ふやす</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">預金・積立</p>
+            </a>
+            <a class="wf-box rounded-xl p-5 text-center cursor-pointer">
+              <div class="wf-img rounded-lg mb-3" style="height:56px; font-size:12px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">借りる</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">各種ローン</p>
+            </a>
+            <a class="wf-box rounded-xl p-5 text-center cursor-pointer">
+              <div class="wf-img rounded-lg mb-3" style="height:56px; font-size:12px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">そなえる</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">相続・代理人</p>
+            </a>
+            <a class="wf-box rounded-xl p-5 text-center cursor-pointer">
+              <div class="wf-img rounded-lg mb-3" style="height:56px; font-size:12px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">相談する</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">手続き・窓口</p>
+            </a>
+            <a class="wf-box rounded-xl p-5 text-center cursor-pointer">
+              <div class="wf-img rounded-lg mb-3" style="height:56px; font-size:12px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">便利に使う</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">アプリ・IB</p>
+            </a>
+            <a class="wf-box rounded-xl p-5 text-center border-2 border-gray-400 bg-gray-50 cursor-pointer">
+              <div class="wf-img rounded-lg mb-3" style="height:56px; font-size:12px; background:#f3f4f6; border-color:#d1d5db;">アイコン</div>
+              <p class="font-bold text-gray-700" style="font-size:16px;">IBログイン</p>
+              <p class="text-gray-500 mt-1" style="font-size:13px;">No.23</p>
+            </a>
+          </div>
+          <p class="anno mt-2">6枠固定。CMCの「グリッドナビ」コンポーネントで管理。バナー画像・リンクURLをノーコードで差し替え可能。</p>
+        </div>
+
+        <!-- ===== A-1: キャンペーンバナー ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:24px 24px 0;">
+          <p class="wf-section-label">▼ キャンペーン・バナー（A-1）</p>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="wf-img rounded-xl" style="height:120px; font-size:13px; border-width:2px;">
+              【バナー①】春の定期預金キャンペーン<br><span style="font-size:11px;">期間限定 / 画像差し替えで運用</span>
+            </div>
+            <div class="wf-img rounded-xl" style="height:120px; font-size:13px; border-width:2px;">
+              【バナー②】住宅ローン特別金利<br><span style="font-size:11px;">期間限定 / 画像差し替えで運用</span>
+            </div>
+          </div>
+          <p class="anno">A-1: CMCで画像・リンク・掲載期間を管理。最大2枚表示。スライダー化も検討可（デザイナー確認要）。</p>
+        </div>
+
+        <!-- ===== B-1: ライフイベント別ナビ ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:24px 24px 0;">
+          <p class="wf-section-label">▼ ライフイベントで選ぶ（B-1）</p>
+          <div class="grid grid-cols-4 gap-4">
+            <a class="bg-white rounded-xl shadow-sm p-5 text-center border border-gray-100 cursor-pointer hover:shadow-md">
+              <div class="wf-img rounded-full mb-3 mx-auto" style="width:56px; height:56px; font-size:9px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">住宅を購入する</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">住宅ローン・リフォームローン</p>
+            </a>
+            <a class="bg-white rounded-xl shadow-sm p-5 text-center border border-gray-100 cursor-pointer hover:shadow-md">
+              <div class="wf-img rounded-full mb-3 mx-auto" style="width:56px; height:56px; font-size:9px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:16px;">教育資金を準備する</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">教育ローン・積立定期</p>
+            </a>
+            <a class="bg-white rounded-xl shadow-sm p-5 text-center border border-gray-100 cursor-pointer hover:shadow-md">
+              <div class="wf-img rounded-full mb-3 mx-auto" style="width:56px; height:56px; font-size:9px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:14px;">老後に備える</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">定期預金・資産運用</p>
+            </a>
+            <a class="bg-white rounded-xl shadow-sm p-5 text-center border border-gray-100 cursor-pointer hover:shadow-md">
+              <div class="wf-img rounded-full mb-3 mx-auto" style="width:56px; height:56px; font-size:9px;">アイコン</div>
+              <p class="font-bold text-gray-900" style="font-size:14px;">相続・遺言を考える</p>
+              <p class="text-gray-400 mt-1" style="font-size:13px;">相続相談・代理人サービス</p>
+            </a>
+          </div>
+          <p class="anno">B-1: グリッドナビ（目的）を補完するライフイベント軸のナビ。CMCで管理。4枠固定（デザイナー確認要）。</p>
+        </div>
+
+        <!-- ===== B-3: おすすめ商品ピックアップ ===== -->
+        <div style="background:#f9fafb; margin-top:28px; padding:28px 0;">
+          <div style="max-width:1280px; margin:0 auto; padding:0 24px;">
+            <p class="wf-section-label">▼ おすすめ商品ピックアップ（B-3）</p>
+            <p class="font-bold text-gray-900 mb-4" style="font-size:18px;">今おすすめの商品</p>
+            <div class="grid grid-cols-3 gap-5">
+              <div class="bg-white rounded-xl shadow p-5 border-t-4 border-gray-600">
+                <p class="text-xs text-gray-700 font-bold mb-2 flex items-center gap-1"><span class="ic-ph ic-xs">アイコン</span> 預金</p>
+                <p class="font-bold text-gray-900 mb-1" style="font-size:16px;">春の定期預金</p>
+                <p class="text-gray-500 mb-3" style="font-size:13px;">金利 年 0.375%（1年）</p>
+                <div class="wf-img rounded-lg mb-3" style="height:60px;">商品イメージ画像</div>
+                <a class="block text-center bg-gray-200 text-gray-800 rounded-lg py-2 font-bold border border-gray-300" style="font-size:13px;">詳しく見る →</a>
+              </div>
+              <div class="bg-white rounded-xl shadow p-5 border-t-4 border-gray-600">
+                <p class="text-xs text-gray-600 font-bold mb-2 flex items-center gap-1"><span class="ic-ph ic-xs">アイコン</span> ローン</p>
+                <p class="font-bold text-gray-900 mb-1" style="font-size:16px;">住宅ローン</p>
+                <p class="text-gray-500 mb-3" style="font-size:13px;">変動金利 年 ○.○%〜（審査基準あり）</p>
+                <div class="wf-img rounded-lg mb-3" style="height:60px;">商品イメージ画像</div>
+                <a class="block text-center bg-gray-200 text-gray-800 rounded-lg py-2 font-bold border border-gray-300" style="font-size:13px;">詳しく見る →</a>
+              </div>
+              <div class="bg-white rounded-xl shadow p-5 border-t-4 border-gray-400">
+                <p class="text-xs text-gray-700 font-bold mb-2 flex items-center gap-1"><span class="ic-ph ic-xs">アイコン</span> 保険・運用</p>
+                <p class="font-bold text-gray-900 mb-1" style="font-size:16px;">個人年金保険</p>
+                <p class="text-gray-500 mb-3" style="font-size:13px;">老後の備えに。窓口で無料相談受付中</p>
+                <div class="wf-img rounded-lg mb-3" style="height:60px;">商品イメージ画像</div>
+                <a class="block text-center bg-gray-200 text-gray-800 rounded-lg py-2 font-bold border border-gray-300" style="font-size:13px;">詳しく見る →</a>
+              </div>
+            </div>
+            <p class="anno mt-3">B-3: CMCで商品・金利・画像・リンクを管理。3枠固定。季節・時期に応じて差し替え。</p>
+          </div>
+        </div>
+
+        <!-- ===== お知らせ＋金利バナー ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:28px 24px 0;" class="grid grid-cols-3 gap-5">
+
+          <!-- お知らせ（左2/3） -->
+          <div class="col-span-2">
+            <p class="wf-section-label">▼ 新着・お知らせ（最新5件）</p>
+            <div class="wf-box rounded-lg overflow-hidden">
+              <div class="divide-y divide-gray-100">
+                <div class="flex gap-3 items-center px-5 py-4">
+                  <span class="bg-red-100 text-red-700 rounded px-2 py-0.5 whitespace-nowrap" style="font-size:13px;">重要</span>
+                  <span class="text-gray-500" style="font-size:13px;">2026.04.01</span>
+                  <span class="text-gray-700" style="font-size:15px;">お知らせタイトルが入ります（1行）</span>
+                  <span class="ml-auto text-gray-700" style="font-size:14px;">→</span>
+                </div>
+                <div class="flex gap-3 items-center px-5 py-4">
+                  <span class="bg-gray-100 text-gray-700 rounded px-2 py-0.5 whitespace-nowrap" style="font-size:13px;">CP</span>
+                  <span class="text-gray-500" style="font-size:13px;">2026.03.15</span>
+                  <span class="text-gray-700" style="font-size:15px;">春の定期預金キャンペーン実施中！</span>
+                  <span class="ml-auto text-gray-700" style="font-size:14px;">→</span>
+                </div>
+                <div class="flex gap-3 items-center px-5 py-4">
+                  <span class="bg-gray-100 text-gray-700 rounded px-2 py-0.5 whitespace-nowrap" style="font-size:13px;">新着</span>
+                  <span class="text-gray-500" style="font-size:13px;">2026.03.01</span>
+                  <span class="text-gray-700" style="font-size:15px;">お知らせタイトルが入ります（1行）</span>
+                  <span class="ml-auto text-gray-700" style="font-size:14px;">→</span>
+                </div>
+                <div class="flex gap-3 items-center px-5 py-4">
+                  <span class="bg-gray-100 text-gray-700 rounded px-2 py-0.5 whitespace-nowrap" style="font-size:13px;">地域</span>
+                  <span class="text-gray-500" style="font-size:13px;">2026.02.20</span>
+                  <span class="text-gray-700" style="font-size:15px;">お知らせタイトルが入ります（1行）</span>
+                  <span class="ml-auto text-gray-700" style="font-size:14px;">→</span>
+                </div>
+                <div class="flex gap-3 items-center px-5 py-4">
+                  <span class="bg-gray-100 text-gray-600 rounded px-2 py-0.5 whitespace-nowrap" style="font-size:13px;">一般</span>
+                  <span class="text-gray-500" style="font-size:13px;">2026.02.10</span>
+                  <span class="text-gray-700" style="font-size:15px;">お知らせタイトルが入ります（1行）</span>
+                  <span class="ml-auto text-gray-700" style="font-size:14px;">→</span>
+                </div>
+              </div>
+              <div class="bg-gray-50 px-5 py-2 text-right">
+                <a class="text-gray-700 underline" style="font-size:13px;">お知らせ一覧 →</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 金利バナー（右1/3） -->
+          <div>
+            <p class="wf-section-label">▼ 金利情報（常設バナー）</p>
+            <div class="wf-gold-bar rounded-lg p-5 flex flex-col justify-center gap-3" style="min-height:200px;">
+              <p class="font-bold" style="font-size:16px;">金利情報</p>
+              <div class="space-y-2" style="font-size:14px;">
+                <div class="flex justify-between border-b border-gray-400 pb-2">
+                  <span>定期預金（1年）</span><span class="font-bold">年 0.375%</span>
+                </div>
+                <div class="flex justify-between border-b border-gray-400 pb-2">
+                  <span>定期預金（3年）</span><span class="font-bold">年 0.400%</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>住宅ローン（変動）</span><span class="font-bold">年 ○.○%〜</span>
+                </div>
+              </div>
+              <a class="bg-white text-gray-700 rounded px-3 py-2 text-center font-bold mt-1" style="font-size:13px;">金利一覧を見る →</a>
+            </div>
+          </div>
+        </div>
+        <div style="max-width:1280px; margin:0 auto; padding:4px 24px 0;">
+          <p class="anno">金利はCMCの数値フィールドで管理。更新→全ページ自動反映。タグ種別：重要・CP・新着・地域・一般。</p>
+        </div>
+
+        <!-- ===== C-1: 数字で見るこましん ===== -->
+        <div style="background:#f3f4f6; margin-top:36px; padding:40px 0; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb;">
+          <div style="max-width:1280px; margin:0 auto; padding:0 24px;">
+            <p class="text-gray-900 font-bold text-center mb-8" style="font-size:20px;">数字で見る小松川信用金庫</p>
+            <div class="grid grid-cols-4 gap-6">
+              <div class="text-center">
+                <p class="text-gray-500 font-bold" style="font-size:40px;">○○<span style="font-size:20px;">年</span></p>
+                <p class="text-gray-700" style="font-size:14px;">創業からの歴史</p>
+                <p class="text-gray-400" style="font-size:11px;">地域とともに歩み続けて</p>
+              </div>
+              <div class="text-center">
+                <p class="text-gray-500 font-bold" style="font-size:40px;">○<span style="font-size:20px;">兆</span>○○○○<span style="font-size:20px;">億円</span></p>
+                <p class="text-gray-700" style="font-size:14px;">預金残高</p>
+                <p class="text-gray-400" style="font-size:11px;">皆さまの大切な資産をお預かり</p>
+              </div>
+              <div class="text-center">
+                <p class="text-gray-500 font-bold" style="font-size:40px;">○<span style="font-size:20px;">万</span></p>
+                <p class="text-gray-700" style="font-size:14px;">お取引口座数</p>
+                <p class="text-gray-400" style="font-size:11px;">地域のお客さまに選ばれています</p>
+              </div>
+              <div class="text-center">
+                <p class="text-gray-500 font-bold" style="font-size:40px;">○○<span style="font-size:20px;">店舗</span></p>
+                <p class="text-gray-700" style="font-size:15px;">店舗・ATM数</p>
+                <p class="text-gray-400" style="font-size:11px;">地域に密着したネットワーク</p>
+              </div>
+            </div>
+            <p class="anno mt-6" style="background:#f9fafb; border-color:#d1d5db; color:#6b7280;">C-1: 数字はCMCで管理。決算期ごとに更新。「地元の信頼」を可視化し信頼感を醸成。</p>
+          </div>
+        </div>
+
+        <!-- ===== C-2: よく利用されるサービス ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:28px 24px 0;">
+          <p class="wf-section-label">▼ よく利用されるサービス（C-2）</p>
+          <p class="font-bold text-gray-900 mb-3" style="font-size:16px;">人気のサービス</p>
+          <div class="flex gap-3 flex-wrap">
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm"><span class="ic-ph ic-xs">アイコン</span> 定期預金</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm"><span class="ic-ph ic-xs">アイコン</span> 住宅ローン</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm flex items-center gap-1.5"><span class="ic-ph ic-xs">アイコン</span> インターネットバンキング</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm flex items-center gap-1.5"><span class="ic-ph ic-xs">アイコン</span> 教育ローン</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm flex items-center gap-1.5"><span class="ic-ph ic-xs">アイコン</span> 口座開設</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm flex items-center gap-1.5"><span class="ic-ph ic-xs">アイコン</span> 住所変更</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm flex items-center gap-1.5"><span class="ic-ph ic-xs">アイコン</span> 通帳・カード再発行</a>
+            <a class="bg-white border border-gray-200 rounded-full px-5 py-2 text-gray-900 text-sm font-bold shadow-sm flex items-center gap-1.5"><span class="ic-ph ic-xs">アイコン</span> 相続・遺言相談</a>
+          </div>
+          <p class="anno mt-2">C-2: アクセスランキング上位のサービスをタグ型で表示。CMCで追加・並び替え可能。</p>
+        </div>
+
+        <!-- ===== D-2: 手続き一覧（よく使う手続き） ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:24px 24px 0;">
+          <p class="wf-section-label">▼ よくあるお手続き（D-2）</p>
+          <div class="grid grid-cols-4 gap-3">
+            <a class="bg-white rounded-lg border border-gray-200 px-4 py-3 flex items-center gap-3 shadow-sm">
+              <span class="ic-ph ic-sm flex-shrink-0">アイコン</span>
+              <div>
+                <p class="font-bold text-gray-900" style="font-size:14px;">口座開設</p>
+                <p class="text-gray-400" style="font-size:11px;">必要書類・手順</p>
+              </div>
+              <span class="ml-auto text-gray-500">→</span>
+            </a>
+            <a class="bg-white rounded-lg border border-gray-200 px-4 py-3 flex items-center gap-3 shadow-sm">
+              <span class="ic-ph ic-sm flex-shrink-0">アイコン</span>
+              <div>
+                <p class="font-bold text-gray-900" style="font-size:14px;">住所変更</p>
+                <p class="text-gray-400" style="font-size:11px;">手続き方法</p>
+              </div>
+              <span class="ml-auto text-gray-500">→</span>
+            </a>
+            <a class="bg-white rounded-lg border border-gray-200 px-4 py-3 flex items-center gap-3 shadow-sm">
+              <span class="ic-ph ic-sm flex-shrink-0">アイコン</span>
+              <div>
+                <p class="font-bold text-gray-900" style="font-size:14px;">通帳紛失・再発行</p>
+                <p class="text-gray-400" style="font-size:11px;">お手続きの流れ</p>
+              </div>
+              <span class="ml-auto text-gray-500">→</span>
+            </a>
+            <a class="bg-white rounded-lg border border-gray-200 px-4 py-3 flex items-center gap-3 shadow-sm">
+              <span class="ic-ph ic-sm flex-shrink-0">アイコン</span>
+              <div>
+                <p class="font-bold text-gray-900" style="font-size:14px;">名義変更（結婚等）</p>
+                <p class="text-gray-400" style="font-size:11px;">手続き方法</p>
+              </div>
+              <span class="ml-auto text-gray-500">→</span>
+            </a>
+          </div>
+          <p class="anno mt-2">D-2: よく問い合わせの多い手続きへの直リンク。コールセンターへの入電削減効果も期待。</p>
+        </div>
+
+        <!-- ===== E-1: 地域トピック ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:28px 24px 0;">
+          <p class="wf-section-label">▼ 地域への取組み・トピック（E-1）</p>
+          <div class="grid grid-cols-3 gap-5">
+            <a class="bg-white rounded-xl shadow overflow-hidden cursor-pointer hover:shadow-md">
+              <div class="wf-img" style="height:120px;">地域イベント写真</div>
+              <div class="p-4">
+                <p class="text-xs text-gray-600 font-bold mb-1"><span class="ic-ph ic-xs">アイコン</span> 地域貢献</p>
+                <p class="font-bold text-gray-900" style="font-size:14px;">江戸川区子ども食堂への支援活動を実施しました</p>
+                <p class="text-gray-400 mt-1" style="font-size:13px;">2026.03.20</p>
+              </div>
+            </a>
+            <a class="bg-white rounded-xl shadow overflow-hidden cursor-pointer hover:shadow-md">
+              <div class="wf-img" style="height:120px;">地域イベント写真</div>
+              <div class="p-4">
+                <p class="text-xs text-gray-600 font-bold mb-1"><span class="ic-ph ic-xs">アイコン</span> 文化・芸術</p>
+                <p class="font-bold text-gray-900" style="font-size:14px;">第○回 こましん美術展 作品募集のご案内</p>
+                <p class="text-gray-400 mt-1" style="font-size:13px;">2026.03.10</p>
+              </div>
+            </a>
+            <a class="bg-white rounded-xl shadow overflow-hidden cursor-pointer hover:shadow-md">
+              <div class="wf-img" style="height:120px;">地域イベント写真</div>
+              <div class="p-4">
+                <p class="text-xs text-gray-600 font-bold mb-1"><span class="ic-ph ic-xs">アイコン</span> 金融教育</p>
+                <p class="font-bold text-gray-900" style="font-size:14px;">地域の小学校で金融教育出前授業を行いました</p>
+                <p class="text-gray-400 mt-1" style="font-size:13px;">2026.02.28</p>
+              </div>
+            </a>
+          </div>
+          <div class="text-right mt-3">
+            <a class="text-gray-700 underline" style="font-size:13px;">地域への取組み一覧 →</a>
+          </div>
+          <p class="anno">E-1: 通常のお知らせとは別枠。「地域が動いている」印象を与え、地元密着感を強化。CMCで管理。</p>
+        </div>
+
+        <!-- ===== E-2: SNSフィード ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:24px 24px 0;">
+          <p class="wf-section-label">▼ SNS最新投稿（E-2）</p>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="font-bold text-gray-900" style="font-size:16px;"><span class="ic-ph ic-xs">アイコン</span> Instagram</span>
+            <a class="text-gray-500 text-xs">@komashin_official フォローする</a>
+          </div>
+          <div class="grid grid-cols-5 gap-3">
+            <div class="wf-img rounded-xl aspect-square" style="font-size:10px;">投稿画像①</div>
+            <div class="wf-img rounded-xl aspect-square" style="font-size:10px;">投稿画像②</div>
+            <div class="wf-img rounded-xl aspect-square" style="font-size:10px;">投稿画像③</div>
+            <div class="wf-img rounded-xl aspect-square" style="font-size:10px;">投稿画像④</div>
+            <div class="wf-img rounded-xl aspect-square" style="font-size:10px;">投稿画像⑤</div>
+          </div>
+          <p class="anno mt-2">E-2: Instagram埋め込みフィード（最新5件）。地域イベント・季節感のある投稿で「動いている」印象を演出。</p>
+        </div>
+
+        <!-- ===== D-3: アプリ誘導バナー ===== -->
+        <div style="background:#f9fafb; border-top:1px solid #f3f4f6; border-bottom:1px solid #f3f4f6; margin-top:36px; padding:28px 0;">
+          <div style="max-width:1280px; margin:0 auto; padding:0 24px;" class="flex items-center gap-8">
+            <div class="wf-img rounded-2xl flex-shrink-0" style="width:80px; height:80px; font-size:10px;">アプリ<br>アイコン</div>
+            <div class="flex-1">
+              <p class="font-bold text-gray-900 mb-1" style="font-size:18px;">こましんアプリで、もっと便利に</p>
+              <p class="text-gray-600" style="font-size:14px;">残高照会・振込・入出金明細をスマホで簡単確認。通帳不要でいつでもどこでも管理できます。</p>
+            </div>
+            <div class="flex gap-3 flex-shrink-0">
+              <a class="bg-black text-white rounded-xl px-5 py-3 flex items-center gap-2 whitespace-nowrap" style="font-size:13px; font-weight:bold;">
+                🍎 App Store
+              </a>
+              <a class="bg-black text-white rounded-xl px-5 py-3 flex items-center gap-2 whitespace-nowrap" style="font-size:13px; font-weight:bold;">
+                🤖 Google Play
+              </a>
+            </div>
+          </div>
+          <div style="max-width:1280px; margin:0 auto; padding:0 24px;">
+            <p class="anno mt-2">D-3: アプリDL誘導バナー。アイコン・バッジ画像はApple/Google公式素材を使用。</p>
+          </div>
+        </div>
+
+        <!-- ===== D-1: 店舗・ATM検索ショートカット ===== -->
+        <div style="max-width:1280px; margin:0 auto; padding:28px 24px 0;" class="grid grid-cols-2 gap-6">
+          <div>
+            <p class="wf-section-label">▼ 店舗・ATM（D-1）</p>
+            <div class="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
+              <div class="wf-img" style="height:160px; font-size:13px;">地図イメージ（Googleマップ埋め込み）</div>
+              <div class="p-4">
+                <p class="font-bold text-gray-900 mb-3" style="font-size:15px;"><span class="ic-ph ic-xs">アイコン</span> 店舗・ATMを探す</p>
+                <div class="flex gap-2 mb-3">
+                  <input class="border border-gray-300 rounded-lg px-3 py-2 flex-1 text-gray-400" style="font-size:13px;" placeholder="住所・駅名で検索" readonly>
+                  <button class="bg-gray-800 text-white rounded-lg px-4 py-2 font-bold" style="font-size:13px;">検索</button>
+                </div>
+                <div class="flex gap-2 text-xs">
+                  <a class="bg-gray-50 border border-gray-200 rounded px-3 py-1.5 text-gray-700 font-bold">本店</a>
+                  <a class="bg-gray-50 border border-gray-200 rounded px-3 py-1.5 text-gray-700 font-bold">平井支店</a>
+                  <a class="bg-gray-50 border border-gray-200 rounded px-3 py-1.5 text-gray-700 font-bold">亀戸支店</a>
+                  <a class="text-gray-700 underline px-2 py-1.5">全店舗 →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- A-3: インターネットバンキング -->
+          <div>
+            <p class="wf-section-label">▼ インターネットバンキング（A-3）</p>
+            <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
+              <p class="font-bold text-gray-900 mb-3" style="font-size:16px;"><span class="ic-ph ic-xs">アイコン</span> インターネットバンキング</p>
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <a class="bg-gray-200 text-gray-800 rounded-lg px-4 py-4 text-center font-bold border border-gray-300" style="font-size:14px;">
+                  🔑 ログイン<br><span class="font-normal text-gray-500" style="font-size:11px;">すでにご利用の方</span>
+                </a>
+                <a class="bg-white border-2 border-gray-700 text-gray-900 rounded-lg px-4 py-4 text-center font-bold" style="font-size:14px;">
+                  📝 新規お申込み<br><span class="font-normal text-gray-400" style="font-size:11px;">まだご利用でない方</span>
+                </a>
+              </div>
+              <div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-700">
+                <p class="font-bold mb-1">個人IBでできること</p>
+                <ul class="space-y-1 text-gray-700">
+                  <li>✓ 残高照会・入出金明細</li>
+                  <li>✓ 振込・振替</li>
+                  <li>✓ 定期預金の預け入れ</li>
+                  <li>✓ 各種お手続き</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="max-width:1280px; margin:0 auto; padding:4px 24px 0;">
+          <p class="anno">D-1: 地図は住所・駅名検索可能なインタラクティブ地図。A-3: IBは「ログイン」「新規申込」の2ルートを明確に分離。</p>
+        </div>
+
+        <!-- ===== フッター（画像準拠） ===== -->
+        <footer style="margin-top:40px;">
+
+          <!-- フッターナビエリア（上段・4列） -->
+          <div class="footer-nav-area" style="padding:40px 0 0;">
+            <div style="max-width:1280px; margin:0 auto; padding:0 40px;">
+              <div class="grid grid-cols-4 gap-8 pb-8" style="border-bottom:1px solid #e5e7eb;">
+
+                <!-- 個人のお客さま -->
+                <div>
+                  <p class="font-bold mb-4" style="color:#374151;" style="font-size:15px;">個人のお客さま</p>
+                  <ul class="space-y-2" style="font-size:14px; color:#6b7280;">
+                    <li><a class="hover:text-white">預ける・備える</a></li>
+                    <li><a class="hover:text-white">借りる</a></li>
+                    <li><a class="hover:text-white">相談する</a></li>
+                    <li><a class="hover:text-white">便利に使う</a></li>
+                    <li><a class="hover:text-white">個人用インターネットバンキング</a></li>
+                    <li><a class="hover:text-white">キャンペーン</a></li>
+                  </ul>
+                </div>
+
+                <!-- 法人・個人事業主 -->
+                <div>
+                  <p class="font-bold mb-4" style="color:#374151;" style="font-size:15px;">法人・個人事業主のお客さま</p>
+                  <ul class="space-y-2" style="font-size:14px; color:#6b7280;">
+                    <li><a class="hover:text-white">中小企業の経営支援</a></li>
+                    <li><a class="hover:text-white">資金の調達</a></li>
+                    <li><a class="hover:text-white">事例紹介</a></li>
+                    <li><a class="hover:text-white">法人用インターネットバンキング</a></li>
+                    <li><a class="hover:text-white">こましんクラウドファクタリング</a></li>
+                    <li><a class="hover:text-white">こましんでんさいサービス</a></li>
+                  </ul>
+                </div>
+
+                <!-- 地域への取組み -->
+                <div>
+                  <p class="font-bold mb-4" style="color:#374151;" style="font-size:15px;">地域への取組み</p>
+                  <ul class="space-y-2" style="font-size:14px; color:#6b7280;">
+                    <li><a class="hover:text-white">地域密着型金融推進計画</a></li>
+                    <li><a class="hover:text-white">中小企業の経営支援に関する取組</a></li>
+                    <li><a class="hover:text-white">芸術・文化・スポーツ振興</a></li>
+                  </ul>
+                </div>
+
+                <!-- 小松川信用金庫について -->
+                <div>
+                  <p class="font-bold mb-4" style="color:#374151;" style="font-size:15px;">小松川信用金庫について</p>
+                  <ul class="space-y-2" style="font-size:14px; color:#6b7280;">
+                    <li><a class="hover:text-white">理事長挨拶</a></li>
+                    <li><a class="hover:text-white">当金庫の概要</a></li>
+                    <li><a class="hover:text-white">経営理念・方針</a></li>
+                    <li><a class="hover:text-white">シンボルマークの由来</a></li>
+                    <li><a class="hover:text-white">経営の状況</a></li>
+                    <li><a class="hover:text-white">ディスクロージャー</a></li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- フッターナビエリア（下段） -->
+              <div class="grid grid-cols-4 gap-8 py-8" style="border-bottom:1px solid #e5e7eb;">
+
+                <!-- サステナビリティ -->
+                <div>
+                  <p class="font-bold mb-4" style="color:#374151;" style="font-size:15px;">サステナビリティ</p>
+                  <ul class="space-y-2" style="font-size:13px; color:#6b7280;">
+                    <li><a class="hover:text-white">小松川信用金庫　SDGs宣言</a></li>
+                    <li><a class="hover:text-white">環境問題対応</a></li>
+                    <li><a class="hover:text-white">金融円滑化の取組み</a></li>
+                    <li><a class="hover:text-white">女性活躍推進法に基づく一般事業主行動計画</a></li>
+                    <li><a class="hover:text-white">次世代育成支援対策推進法に基づく一般事業主行動計画</a></li>
+                  </ul>
+                </div>
+
+                <!-- 店舗・ATM -->
+                <div>
+                  <p class="font-bold mb-4" style="color:#374151;" style="font-size:15px;">店舗・ATM</p>
+                  <div class="grid grid-cols-2 gap-x-4 gap-y-2" style="font-size:13px; color:#6b7280;">
+                    <a class="hover:text-white">本店</a>
+                    <a class="hover:text-white">東四つ木支店</a>
+                    <a class="hover:text-white">中平井支店</a>
+                    <a class="hover:text-white">篠崎支店</a>
+                    <a class="hover:text-white">亀戸支店</a>
+                    <a class="hover:text-white">菅原橋支店</a>
+                    <a class="hover:text-white">奥戸支店</a>
+                    <a class="hover:text-white">鹿骨支店</a>
+                    <a class="hover:text-white">市川南支店</a>
+                    <a class="hover:text-white"></a>
+                    <a class="hover:text-white">平井支店</a>
+                    <a class="hover:text-white"></a>
+                  </div>
+                </div>
+
+                <!-- 単体リンク群（右2列分） -->
+                <div class="col-span-2 grid grid-cols-2 gap-4">
+                  <div class="space-y-4">
+                    <a class="block font-bold" style="color:#374151; font-size:15px;">金利情報</a>
+                    <a class="block font-bold" style="color:#374151; font-size:15px;">手数料・利用料</a>
+                    <a class="block font-bold" style="color:#374151; font-size:15px;">お知らせ</a>
+                  </div>
+                  <div class="space-y-4">
+                    <a class="block font-bold" style="color:#374151; font-size:15px;">よくあるご質問</a>
+                    <a class="block font-bold" style="color:#374151; font-size:15px;">お問い合わせ</a>
+                    <a class="block font-bold" style="color:#374151; font-size:15px;">採用サイト</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- コーポレートエリア（白背景） -->
+            <div style="background:#fff; padding:32px 0;">
+              <div style="max-width:1280px; margin:0 auto; padding:0 40px;" class="flex items-start gap-8 justify-between">
+
+                <!-- ロゴ＋住所 -->
+                <div class="flex-shrink-0">
+                  <div class="flex items-center gap-2 mb-3">
+                    <span class="logo-ph" style="width:32px; height:32px; padding:0;">ロゴ</span>
+                    <span class="font-bold text-gray-900" style="font-size:18px;">小松川信用金庫</span>
+                  </div>
+                  <p class="text-gray-700 font-bold" style="font-size:14px;">小松川信用金庫（金庫コード：1326）</p>
+                  <p class="text-gray-600 font-bold" style="font-size:13px; letter-spacing:.05em;">THE KOMATSUGAWA SHINKIN BANK</p>
+                  <div class="mt-3 space-y-1" style="font-size:14px; color:#4b5563;">
+                    <p>〒132-8711　東京都江戸川区平井6-23-23</p>
+                    <p>TEL 03-3617-1326</p>
+                  </div>
+                </div>
+
+                <!-- 法的表記 -->
+                <div style="font-size:11px; color:#6b7280; line-height:1.8; max-width:520px;">
+                  <p>号等：小松川信用金庫　信金中央金庫代理店　金融機関コード：1326</p>
+                  <p>信金金庫代理業、信用金庫法第85条2の2の規定に基づく信用金庫代理業者　所属信用金庫：信金中央金庫</p>
+                  <p>信託契約代理業　登録番号：関東財務局長（代理）第108号　所属信託会社：信金中央金庫</p>
+                  <p>登録金融機関：関東財務局長（登録）第156号</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- ボトムバー -->
+            <div style="background:#f3f4f6; border-top:1px solid #e5e7eb; padding:16px 0;">
+              <div style="max-width:1280px; margin:0 auto; padding:0 40px;">
+                <div class="flex flex-wrap gap-x-6 gap-y-1 justify-center mb-2" style="font-size:11px; color:#6b7280;">
+                  <a class="hover:text-gray-700 hover:underline">信用金庫代理業にかかる掲示</a>
+                  <span class="text-gray-300">｜</span>
+                  <a class="hover:text-gray-700 hover:underline">信託契約代理店にかかる掲示</a>
+                  <span class="text-gray-300">｜</span>
+                  <a class="hover:text-gray-700 hover:underline">信金中央金庫ディスクロージャー誌</a>
+                  <span class="text-gray-300">｜</span>
+                  <a class="hover:text-gray-700 hover:underline">各種指針・方針</a>
+                </div>
+                <div class="flex flex-wrap gap-x-6 gap-y-1 justify-center mb-3" style="font-size:11px; color:#6b7280;">
+                  <a class="hover:text-gray-700 hover:underline">免責事項</a>
+                  <span class="text-gray-300">｜</span>
+                  <a class="hover:text-gray-700 hover:underline">ソーシャルメディアポリシー</a>
+                  <span class="text-gray-300">｜</span>
+                  <a class="hover:text-gray-700 hover:underline">プライバシーポリシー</a>
+                  <span class="text-gray-300">｜</span>
+                  <a class="hover:text-gray-700 hover:underline">サイトマップ</a>
+                </div>
+                <p class="text-center" style="font-size:11px; color:#9ca3af;">copyright©The Komatsugawa Shinkin Bank all rights reserved.</p>
+              </div>
+            </div>
+
+          </div>
+        </footer>
+
+      </div><!-- /ページ本体 -->
+    </div><!-- /browser-shell -->
+
+    <!-- PC 注釈まとめ -->
+    <div class="mt-6 bg-white rounded-xl shadow p-5 text-xs space-y-2" style="max-width:none;">
+      <p class="font-bold text-gray-700 mb-3">PC版 設計ポイント（1440px外幅 / 1280pxインナー / 本文14〜16px）</p>
+      <div class="grid grid-cols-3 gap-3">
+        <div class="anno">A-2 CTAボタン帯をヒーロー直下に設置。電話・資料請求の2ルート導線。</div>
+        <div class="anno">A-1 キャンペーンバナー2枚。CMCで画像・期間管理。スライダー化も検討可。</div>
+        <div class="anno">B-1 ライフイベント別ナビ4枠。目的ナビ（グリッド）を補完する別軸の誘導。</div>
+        <div class="anno">B-3 おすすめ商品3枚カード。季節・時期に応じてCMSで差し替え。金利表示含む。</div>
+        <div class="anno">C-1 「数字で見るこましん」帯。創業年・預金残高・口座数・店舗数。信頼感の可視化。</div>
+
+        <div class="anno">E-1 地域トピック3件カード。お知らせと別枠。地域密着感の演出に特に重要。</div>
+        <div class="anno">D-3 アプリ誘導バナー。App Store / Google Play公式バッジ画像を使用。</div>
+        <div class="anno">フッター: 4列ナビ+サブナビ+コーポレート+ボトムバーの4層構造。画像データ準拠。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================
+       SP版
+  ============================== -->
+  <div id="pane-sp" class="tab-pane">
+    <div class="flex gap-12 items-start px-6 pb-8">
+
+      <!-- スマホ実機イメージ -->
+      <div>
+        <p class="text-xs font-bold text-gray-500 mb-4 text-center">実寸イメージ（375px）</p>
+        <div class="phone-shell">
+          <div class="phone-notch"></div>
+          <div class="phone-screen" style="width:320px;">
+
+            <!-- SPヘッダー -->
+            <div class="wf-nav px-4 py-3 flex items-center justify-between">
+              <button class="text-white text-xl">☰</button>
+              <div class="wf-img w-20 h-6 rounded" style="font-size:9px; background:rgba(255,255,255,.1); border-color:#9ca3af; color:#6b7280;">ロゴ</div>
+              <button class="bg-gray-700 text-white text-xs px-2 py-1 rounded font-bold">IB</button>
+            </div>
+
+            <!-- SPヒーロー -->
+            <div class="wf-hero mx-3 mt-3 rounded-lg h-16 flex flex-col items-center justify-center gap-1">
+              <p class="text-gray-700 font-bold text-sm">個人のお客様</p>
+              <p class="text-gray-500" style="font-size:9px;">リード文（1行）</p>
+            </div>
+
+            <!-- SP CTA帯 -->
+            <div class="mx-3 mt-2 bg-gray-50 rounded-lg p-2 flex gap-2">
+              <a class="flex-1 bg-gray-800 text-white text-center rounded py-1.5 font-bold flex items-center justify-center gap-1" style="font-size:9px;"><span class="ic-ph ic-xs" style="background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.4); color:#fff;">アイコン</span> 電話相談</a>
+              <a class="flex-1 bg-white border border-gray-700 text-gray-900 text-center rounded py-1.5 font-bold flex items-center justify-center gap-1" style="font-size:9px;"><span class="ic-ph ic-xs">アイコン</span> 資料請求</a>
+            </div>
+
+            <!-- SPグリッドナビ 2×3 -->
+            <div class="px-3 mt-3">
+              <p class="wf-section-label" style="font-size:8px;">▼ 目的で選ぶ</p>
+              <div class="grid grid-cols-2 gap-2">
+                <a class="wf-box rounded-xl p-3 text-center">
+                  <div class="wf-img h-10 rounded-lg mb-1.5" style="font-size:9px;">icon</div>
+                  <p class="font-bold text-gray-900 text-xs">ためる・ふやす</p>
+                  <p class="text-gray-400" style="font-size:8px;">預金・積立</p>
+                </a>
+                <a class="wf-box rounded-xl p-3 text-center">
+                  <div class="wf-img h-10 rounded-lg mb-1.5" style="font-size:9px;">icon</div>
+                  <p class="font-bold text-gray-900 text-xs">借りる</p>
+                  <p class="text-gray-400" style="font-size:8px;">各種ローン</p>
+                </a>
+                <a class="wf-box rounded-xl p-3 text-center">
+                  <div class="wf-img h-10 rounded-lg mb-1.5" style="font-size:9px;">icon</div>
+                  <p class="font-bold text-gray-900 text-xs">そなえる</p>
+                  <p class="text-gray-400" style="font-size:8px;">相続・代理人</p>
+                </a>
+                <a class="wf-box rounded-xl p-3 text-center">
+                  <div class="wf-img h-10 rounded-lg mb-1.5" style="font-size:9px;">icon</div>
+                  <p class="font-bold text-gray-900 text-xs">相談する</p>
+                  <p class="text-gray-400" style="font-size:8px;">手続き・窓口</p>
+                </a>
+                <a class="wf-box rounded-xl p-3 text-center">
+                  <div class="wf-img h-10 rounded-lg mb-1.5" style="font-size:9px;">icon</div>
+                  <p class="font-bold text-gray-900 text-xs">便利に使う</p>
+                  <p class="text-gray-400" style="font-size:8px;">アプリ・IB</p>
+                </a>
+                <a class="wf-box rounded-xl p-3 text-center border-2 border-gray-400 bg-gray-50">
+                  <div class="wf-img h-10 rounded-lg mb-1.5" style="font-size:9px; background:#f3f4f6; border-color:#d1d5db;">icon</div>
+                  <p class="font-bold text-gray-700 text-xs">IBログイン</p>
+                </a>
+              </div>
+            </div>
+
+            <!-- SPキャンペーンバナー -->
+            <div class="px-3 mt-3">
+              <div class="wf-img rounded-lg" style="height:60px; font-size:9px;">キャンペーンバナー（CMC管理）</div>
+            </div>
+
+            <!-- SP金利バナー -->
+            <div class="mx-3 mt-3 wf-gold-bar rounded-lg p-3 flex items-center justify-between">
+              <div>
+                <p class="font-bold text-xs">金利情報</p>
+                <p style="font-size:9px;" class="text-gray-100">定期（1年）年0.375% / 住宅ローン 年○.○%〜</p>
+              </div>
+              <span class="text-gray-300 text-sm">→</span>
+            </div>
+
+            <!-- SPお知らせ -->
+            <div class="px-3 mt-3">
+              <p class="wf-section-label" style="font-size:8px;">▼ 新着・お知らせ</p>
+              <div class="wf-box rounded-lg overflow-hidden divide-y divide-gray-100">
+                <div class="flex gap-2 items-center px-3 py-2.5">
+                  <span class="bg-red-100 text-red-700 rounded px-1.5 py-0.5 whitespace-nowrap" style="font-size:8px;">重要</span>
+                  <span class="text-gray-700" style="font-size:10px;">2026.04.01 お知らせタイトル</span>
+                </div>
+                <div class="flex gap-2 items-center px-3 py-2.5">
+                  <span class="bg-gray-100 text-gray-700 rounded px-1.5 py-0.5 whitespace-nowrap" style="font-size:8px;">CP</span>
+                  <span class="text-gray-700" style="font-size:10px;">春の定期預金キャンペーン</span>
+                </div>
+                <div class="flex gap-2 items-center px-3 py-2.5">
+                  <span class="bg-gray-100 text-gray-700 rounded px-1.5 py-0.5 whitespace-nowrap" style="font-size:8px;">新着</span>
+                  <span class="text-gray-700" style="font-size:10px;">2026.03.15 お知らせタイトル</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SPアプリ誘導 -->
+            <div class="mx-3 mt-3 bg-gray-50 rounded-lg p-3 flex items-center gap-2">
+              <div class="wf-img rounded-lg flex-shrink-0" style="width:36px; height:36px; font-size:8px;">icon</div>
+              <div class="flex-1">
+                <p class="font-bold text-gray-900" style="font-size:10px;">こましんアプリ</p>
+                <p class="text-gray-500" style="font-size:9px;">残高照会・振込がスマホで</p>
+              </div>
+              <div class="flex flex-col gap-1">
+                <a class="bg-black text-white text-center rounded px-2 py-0.5" style="font-size:8px;">App Store</a>
+                <a class="bg-black text-white text-center rounded px-2 py-0.5" style="font-size:8px;">Google Play</a>
+              </div>
+            </div>
+
+            <!-- SPフッター -->
+            <div class="wf-foot mt-4 py-3 text-center" style="font-size:9px;">
+              【共通フッター（4列ナビ＋コーポレート）】
+            </div>
+
+          </div><!-- /phone-screen -->
+          <div class="phone-home"></div>
+        </div><!-- /phone-shell -->
+      </div>
+
+      <!-- SP 注釈 -->
+      <div class="flex-1 space-y-4 mt-8">
+        <h2 class="text-sm font-bold text-gray-900 border-b-2 border-gray-700 pb-2">SP版 設計ポイント</h2>
+
+        <div class="bg-white rounded-xl shadow p-4 space-y-3 text-xs">
+          <div>
+            <p class="font-bold text-gray-700 mb-1">📐 グリッド: 2列 × 3行</p>
+            <p class="anno">PC: 6列1行 → SP: 2列3行に自動変換。</p>
+          </div>
+          <div>
+            <p class="font-bold text-gray-700 mb-1">📅 CTAボタン帯</p>
+            <p class="anno">PC: 2ボタン横並び → SP: 2ボタン（電話相談・資料請求）に絞り込み。</p>
+          </div>
+          <div>
+            <p class="font-bold text-gray-700 mb-1">🔵 IBログイン常設</p>
+            <p class="anno">6枠目に固定＋ヘッダー右に常設。</p>
+          </div>
+          <div>
+            <p class="font-bold text-gray-700 mb-1">💛 金利バナー</p>
+            <p class="anno">PC右カラム → SP縦積みで金利バナーをグリッド直下に配置。</p>
+          </div>
+          <div>
+            <p class="font-bold text-gray-700 mb-1">📱 アプリ誘導</p>
+            <p class="anno">SP特有のコンテンツ。横幅をフル活用したコンパクト誘導バナー。</p>
+          </div>
+          <div>
+            <p class="font-bold text-gray-700 mb-1">☰ ハンバーガーメニュー</p>
+            <p class="anno">B-1ライフイベントナビ等はドロワーナビまたはスクロール下方に配置。</p>
+          </div>
+        </div>
+
+        <!-- レスポンシブ対応表 -->
+        <div class="bg-white rounded-xl shadow p-4 text-xs">
+          <p class="font-bold text-gray-700 mb-3">PC → SP レイアウト変換対応表</p>
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-gray-800 text-white">
+                <th class="px-3 py-2 text-left">要素</th>
+                <th class="px-3 py-2 text-center">PC</th>
+                <th class="px-3 py-2 text-center">SP</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 text-xs">
+              <tr><td class="px-3 py-2">CTA帯</td><td class="px-3 py-2 text-center">3ボタン横並び</td><td class="px-3 py-2 text-center">2ボタン（来店・電話）</td></tr>
+              <tr class="bg-gray-50"><td class="px-3 py-2">グリッドナビ</td><td class="px-3 py-2 text-center">6列 × 1行</td><td class="px-3 py-2 text-center">2列 × 3行</td></tr>
+              <tr><td class="px-3 py-2">キャンペーンバナー</td><td class="px-3 py-2 text-center">2枚横並び</td><td class="px-3 py-2 text-center">1枚縦積み</td></tr>
+              <tr class="bg-gray-50"><td class="px-3 py-2">ライフイベントナビ</td><td class="px-3 py-2 text-center">4列</td><td class="px-3 py-2 text-center">2列 × 2行</td></tr>
+              <tr><td class="px-3 py-2">おすすめ商品</td><td class="px-3 py-2 text-center">3列</td><td class="px-3 py-2 text-center">1列縦積み</td></tr>
+              <tr class="bg-gray-50"><td class="px-3 py-2">お知らせ＋金利</td><td class="px-3 py-2 text-center">2:1カラム並列</td><td class="px-3 py-2 text-center">縦積み</td></tr>
+              <tr><td class="px-3 py-2">数字で見るこましん</td><td class="px-3 py-2 text-center">4列</td><td class="px-3 py-2 text-center">2列 × 2行</td></tr>
+
+              <tr><td class="px-3 py-2">地域トピック</td><td class="px-3 py-2 text-center">3列</td><td class="px-3 py-2 text-center">横スクロール</td></tr>
+              <tr class="bg-gray-50"><td class="px-3 py-2">SNSフィード</td><td class="px-3 py-2 text-center">5列</td><td class="px-3 py-2 text-center">3列</td></tr>
+              <tr><td class="px-3 py-2">アプリ誘導</td><td class="px-3 py-2 text-center">横長バナー</td><td class="px-3 py-2 text-center">コンパクト縦型</td></tr>
+              <tr class="bg-gray-50"><td class="px-3 py-2">店舗・ATM</td><td class="px-3 py-2 text-center">地図＋検索ボックス</td><td class="px-3 py-2 text-center">地図→検索→支店リスト</td></tr>
+              <tr><td class="px-3 py-2">フッターナビ</td><td class="px-3 py-2 text-center">4列表示</td><td class="px-3 py-2 text-center">アコーディオン</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /pane-sp -->
+
+  <!-- ページフッター -->
+  <footer class="text-center text-xs text-gray-400 border-t pt-4 mt-8 pb-8">
+    小松川信用金庫 コーポレートサイトリニューアル ／ No.1 ② 個人のお客様TOP ワイヤーフレーム<br>
+    ページ種別版サイトマップ準拠 ／ インフォネット ／ 2026年4月 ／ 社外秘
+  </footer>
+
+<script>
+function switchTab(t) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('pane-' + t).classList.add('active');
+  document.getElementById('btn-' + t).classList.add('active');
+}
+</script>
+</body>
+</html>
